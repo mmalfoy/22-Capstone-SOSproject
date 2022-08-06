@@ -40,14 +40,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#a1aef6"
+                android:background="#B4E5FF"
                 >
                 <ImageButton
                     android:id="@+id/btn_menu"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_menu_24"
-                    android:background="#a1aef6"
+                    android:backgroundTint="#B4E5FF"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_settings_24"
-                    android:background="#a1aef6"
+                    android:backgroundTint="#B4E5FF"
                     />
             </LinearLayout>
 
