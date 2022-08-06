@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B4E5FF"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:textSize="15dp"
+        android:background="?attr/colorSurface"
+        android:text="개인정보 이용 동의를 해주세요."/>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="200dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:background="?attr/colorSurface"
+                android:text="\t -개인정보 수집‧ 이용 ‧ 제공 동의서-\n\n본인은 귀사에 이력서를 제출함에 따라 [개인정보 보호법] 제15조 및 제17조에 따라 아래의 내용으로 개인정보를 수집, 이용 및 제공하는데 동의합니다.
+□ 개인정보의 수집 및 이용에 관한 사항
+- 수집하는 개인정보 항목 (이력서 양식 내용 일체) : 성명, 주민등록번호, 전화번호,
+주소, 이메일, 가족관계, 학력사항, 경력사항, 자격사항 등과 그 外 이력서 기재 내용
+일체
+- 개인정보의 이용 목적 : 수집된 개인정보를 사업장 신규 채용 서류 심사 및 인사서
+류로 활용하며, 목적 외의 용도로는 사용하지 않습니다.
+□ 개인정보의 보관 및 이용 기간
+- 귀하의 개인정보를 다음과 같이 보관하며, 수집, 이용 및 제공목적이 달성된 경우
+[개인정보 보호법] 제21조에 따라 처리합니다.
+
+□ 본인은 개인정보 수집 및 이용에 대하여 동의합니다.\n\n-고유식별정보 수집 동의서-\n\n□ 수집항목 : 주민등록번호
+□ 수집목적 : 인사 관련 업무 용도
+□ 폐기시기 : 근로기준법 제41조 및 제42조에 따라 해당일로부터 3년간 보관
+□ 본인은 고유식별정보 수집에 동의합니다.\n\n※귀하는 개인정보 및 고유식별정보 수집에 대한 동의를 거부할 권리가 있습니다. 단 부동의시 채용심사 및 4대 보험 가입과 세금관련 업무로 불이익을 받을 수 있습니다."/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:background="?attr/colorSurface">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="동의 여부"
+                    android:layout_marginRight="20dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="예"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/agreebtn"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/disagreebtn"
+                    android:textColor="@color/white"
+                    android:text="아니요"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

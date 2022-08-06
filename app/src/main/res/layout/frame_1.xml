@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/subwayback">
+
+    <TextView
+        android:text="개인 사용자별 맞춤\n교통 서비스\n\n\n\n\n\n"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:textSize="40dp"
+        android:gravity="center"
+        android:background="#80000000"
+        android:fontFamily="@font/garmat"
+        android:textColor="@color/white"
+
+        />
+
+</LinearLayout>

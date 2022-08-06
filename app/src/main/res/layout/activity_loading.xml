@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingTop="100dp"
+    android:paddingBottom="100dp"
+    android:background="#B4E5FF">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36dp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/text1"
+
+        android:fontFamily="@font/garmat"
+        android:text="더 나은 교통 시스템을 위해 !" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_marginTop="45dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/subway" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/text2"
+        android:fontFamily="@font/garmat"
+        android:text="TEAM 유임슝차 (lottie 사용?)" />
+
+
+</LinearLayout>
