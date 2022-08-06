@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.Manifest;
@@ -38,46 +39,143 @@ import androidx.core.app.ActivityCompat;
 
 public class BeforeLoginActivity extends AppCompatActivity {
 
-
+    int a = 0,b = 0,c = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_login);
 
+        Button btn_rulePage = (Button) findViewById(R.id.rule_page_btn);
+        ImageButton btn_firstcheck = (ImageButton) findViewById(R.id.first_check);
+        ImageButton btn_secondcheck = (ImageButton) findViewById(R.id.second_check);
+        ImageButton btn_thirdcheck = (ImageButton) findViewById(R.id.third_check);
 
 
-        Button btn_agree = (Button) findViewById(R.id.agreebtn);
-        btn_agree.setOnClickListener(new Button.OnClickListener() {
-
+        btn_rulePage.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //여기서 DB로 개인정보동의 확인정보 전송
-                // DB서 정보 받아서 sql lite이용 기기에 저장
-                //그리고 메인으로 넘어감
-                //중간에 로딩화면 보여주면 좋을 듯..??
-                // showDialog(str);
                 finish();
             }
         });
 
-        Button btn_disagree = (Button) findViewById(R.id.disagreebtn);
-        btn_disagree.setOnClickListener(new Button.OnClickListener() {
+        btn_firstcheck.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(a == 0){
+                    btn_rulePage.setVisibility(View.VISIBLE);
+                    btn_rulePage.setClickable(true);
+
+                    btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                    a = 1;
+
+                    btn_secondcheck.setImageResource(R.drawable.ic_baseline_check_24);
+                    b = 1;
+
+                    btn_thirdcheck.setImageResource(R.drawable.ic_baseline_check_24);
+                    c = 1;
+                }else{
+                    btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+                    a = 0;
+
+                    btn_secondcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
+                    b = 0;
+
+                    btn_thirdcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
+                    c = 0;
+
+                    btn_rulePage.setVisibility(View.INVISIBLE);
+                    btn_rulePage.setClickable(false);
+
+                }
+
+            }
+        });
+
+        btn_secondcheck.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(b == 0){
+                    btn_secondcheck.setImageResource(R.drawable.ic_baseline_check_24);
+                    b = 1;
+                    if(c == 1){
+                        btn_rulePage.setVisibility(View.VISIBLE);
+                        btn_rulePage.setClickable(true);
+
+                        btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                        a = 1;
+                    }
+
+                }else{
+                    btn_secondcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
+                    b = 0;
+                    if(a == 1){
+                        btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+                        a = 0;
+                        btn_rulePage.setVisibility(View.INVISIBLE);
+                        btn_rulePage.setClickable(false);
+                    }
+                }
+
+            }
+        });
+
+        btn_thirdcheck.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(c == 0){
+                    btn_thirdcheck.setImageResource(R.drawable.ic_baseline_check_24);
+                    c = 1;
+                    if(b ==1 ){
+                        btn_rulePage.setVisibility(View.VISIBLE);
+                        btn_rulePage.setClickable(true);
+
+                        btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                        a = 1;
+                    }
+                }else{
+                    btn_thirdcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
+                    c = 0;
+                    if(a == 1){
+                        btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+                        a = 0;
+                        btn_rulePage.setVisibility(View.INVISIBLE);
+                        btn_rulePage.setClickable(false);
+                    }
+                }
+            }
+        });
+
+        ImageButton btn_secondright = (ImageButton) findViewById(R.id.second_right);
+        btn_secondright.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //여기서 DB로 개인정보동의 확인정보 전송
-                // DB서 정보 받아서 sql lite이용 기기에 저장
-                //그리고 메인으로 넘어감
-                //중간에 로딩화면 보여주면 좋을 듯..??
-                // showDialog(str);
-                Toast.makeText(getApplicationContext(),"개인정보 동의 후 서비스 이용이 가능합니다.\n앱을 종료합니다.", Toast.LENGTH_SHORT).show();
-                //end_program();
+                Intent intent = new Intent(BeforeLoginActivity.this,Agree_1.class);
+                startActivity(intent);
 
 
             }
         });
+
+        ImageButton btn_thirdright = (ImageButton) findViewById(R.id.third_right);
+        btn_thirdright.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BeforeLoginActivity.this,Agree_2.class);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+
+
+
     }
+
 
     private void end_program(){
         try {

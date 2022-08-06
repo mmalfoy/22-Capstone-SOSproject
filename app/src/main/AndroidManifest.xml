@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SosProject">
         <activity
+            android:name=".Agree_2"
+            android:exported="true" />
+        <activity
+            android:name=".Agree_1"
+            android:exported="true" />
+        <activity
             android:name=".BeforeLogin_explane_Activity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".AppinfoActivity"
             android:exported="true" />
@@ -25,12 +30,9 @@
         <activity
             android:name=".SettingActivity"
             android:exported="true" />
-
         <activity
             android:name=".BeforeLoginActivity"
-            android:exported="true"
-            /> <!-- android:theme="@style/FullScreenTheme" -->
-
+            android:exported="true" /> <!-- android:theme="@style/FullScreenTheme" -->
         <activity
             android:name=".LoadingActivity"
             android:exported="true" /> <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> <!- <activity -->
@@ -41,8 +43,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
