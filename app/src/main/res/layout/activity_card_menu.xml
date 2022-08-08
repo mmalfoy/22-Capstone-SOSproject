@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:background="#B4E5FF"
-        android:orientation="horizontal"
-        >
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:background="#B4E5FF"
+            android:orientation="horizontal"
+            >
 
 
-        <ImageView
-
-            android:layout_marginLeft="5sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="#696969"
-            android:background="@drawable/ic_baseline_chevron_left_24"/>
+            <ImageView
+                android:id="@+id/back_card_menu"
+                android:layout_marginLeft="5sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="#696969"
+                android:background="@drawable/ic_baseline_chevron_left_24"/>
 
 
 
@@ -35,212 +39,214 @@
 
 
 
-    </FrameLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="40sp"/>
-
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-        <ImageView
-            android:layout_width="185.414sp"
-            android:layout_height="300sp"
-            android:layout_gravity="center"
-            android:background="@drawable/paycard" />
+        </FrameLayout>
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="40sp"/>
 
+
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="더 나은 내일을 위한 동행 \nAppNAME과 함께 오늘도 좋은 하루 되셨기를 바랍니다."/>
+            <ImageView
+                android:layout_width="185.414sp"
+                android:layout_height="300sp"
+                android:layout_gravity="center"
+                android:background="@drawable/paycard" />
+
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="20sp"/>
+                android:layout_height="40sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
-                    android:textSize="20sp"
-                    android:text="Default 님"/>
+                    android:layout_marginLeft="20sp"
+                    android:text="더 나은 내일을 위한 동행 \nAppNAME과 함께 오늘도 좋은 하루 되셨기를 바랍니다."/>
                 <Space
                     android:layout_width="wrap_content"
-                    android:layout_height="5sp"/>
-                <TextView
+                    android:layout_height="20sp"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="2sp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:textSize="20sp"
+                        android:text="Default 님"/>
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="5sp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="2sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="5sp"
+                        android:background="@color/black"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
                     android:layout_marginLeft="10sp"
-                    android:layout_marginRight="5sp"
-                    android:background="@color/black"/>
+                    android:textSize="15sp"
+                    android:text="카드명"/>
+
+                <Space
+                    android:layout_width="275sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:textSize="15sp"
+                    android:textColor="#0000FF"
+                    android:gravity="right"
+                    android:text="The 슝슝이 "/>
+
 
             </LinearLayout>
 
-        </LinearLayout>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:layout_marginLeft="10sp"
-                android:textSize="15sp"
-                android:text="카드명"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:textSize="15sp"
+                    android:text="카드 번호"/>
+
+                <Space
+                    android:layout_width="219sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:textSize="15sp"
+                    android:textColor="#0000FF"
+                    android:gravity="right"
+                    android:text="012-345-678910"/>
+
+
+            </LinearLayout>
 
             <Space
-                android:layout_width="275sp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="10sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:textSize="15sp"
-                android:textColor="#0000FF"
-                android:gravity="right"
-                android:text="The 슝슝이 "/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:textSize="15sp"
+                    android:text="카드 발급일"/>
 
-        </LinearLayout>
+                <Space
+                    android:layout_width="240sp"
+                    android:layout_height="wrap_content"/>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:layout_marginLeft="10sp"
-                android:textSize="15sp"
-                android:text="카드 번호"/>
-
-            <Space
-                android:layout_width="219sp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:textSize="15sp"
-                android:textColor="#0000FF"
-                android:gravity="right"
-                android:text="012-345-678910"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:textSize="15sp"
+                    android:textColor="#0000FF"
+                    android:gravity="right"
+                    android:text="2022.01.01"/>
 
 
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:layout_marginLeft="10sp"
-                android:textSize="15sp"
-                android:text="카드 발급일"/>
+            </LinearLayout>
 
             <Space
-                android:layout_width="240sp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="10sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:textSize="15sp"
-                android:textColor="#0000FF"
-                android:gravity="right"
-                android:text="2022.01.01"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:textSize="15sp"
+                    android:text="카드 만기일"/>
+
+                <Space
+                    android:layout_width="240sp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                    android:textSize="15sp"
+                    android:textColor="#0000FF"
+                    android:gravity="right"
+                    android:text="2022.01.01"/>
 
 
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:layout_marginLeft="10sp"
-                android:textSize="15sp"
-                android:text="카드 만기일"/>
+            </LinearLayout>
 
             <Space
-                android:layout_width="240sp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="10sp"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
-                android:textSize="15sp"
-                android:textColor="#0000FF"
-                android:gravity="right"
-                android:text="2022.01.01"/>
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#696969"/>
 
 
         </LinearLayout>
-
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="10sp"/>
-
+            android:layout_height="5sp"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
-            android:layout_marginRight="10sp"
-            android:background="#696969"/>
+            android:text="카드 분실신고 및 기타 문의는 고객센터로 연락 해주시길 바랍니다.\n고객 센터 (02) 1234 - 5678"/>
 
 
     </LinearLayout>
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="5sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
-        android:text="카드 분실신고 및 기타 문의는 고객센터로 연락 해주시길 바랍니다.\n고객 센터 (02) 1234 - 5678"/>
 
-
-</LinearLayout>
+</ScrollView>
