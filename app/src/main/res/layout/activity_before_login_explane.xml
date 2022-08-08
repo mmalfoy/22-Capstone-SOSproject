@@ -23,26 +23,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="12">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="600sp"
 
             />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+
+            android:orientation="horizontal"
+            >
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnStart"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
-
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="바로 시작하기"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:background="#646464"
                 android:textColor="@color/white"
                 />
@@ -64,7 +67,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="500sp"
             />
 
         <me.relex.circleindicator.CircleIndicator
@@ -73,7 +76,7 @@
             app:ci_width="3pt"
             app:ci_height="3pt"
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="30sp" />
 
     </LinearLayout>
 

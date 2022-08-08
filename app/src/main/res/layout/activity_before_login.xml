@@ -5,29 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B4E5FF"
+    android:weightSum="2.618"
     >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:layout_gravity="bottom"
-        android:background="#B4E5FF"
-        android:textColor="@color/white"
-        android:text="정보 수집 약관에\n동의해 주세요."
-        />
-
-    <Space
+    <LinearLayout
+        android:layout_weight="1.618"
         android:layout_width="match_parent"
-        android:layout_height="130dp"/>
+        android:layout_height="0sp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200sp"
+            android:layout_marginLeft="30sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="#B4E5FF"
+            android:textColor="@color/white"
+
+            android:text="정보 수집 약관에\n동의해 주세요."
+            />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"/>
+
+
+    </LinearLayout>
+
+
+
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
+        android:layout_height="0sp"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -39,21 +53,21 @@
                 android:id="@+id/first_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="20sp"
                 android:background="@drawable/ic_baseline_check_circle_outline_24"
                 />
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="20sp"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:textSize="15sp"
                 android:text="개인정보 약관 동의"/>
 
 
@@ -61,9 +75,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="15sp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="2sp"
             android:background="#E5E5E5"/>
 
         <LinearLayout
@@ -74,32 +88,32 @@
                 android:id="@+id/second_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="20sp"
                 android:background="@drawable/ic_baseline_beforecheck_24"
                 />
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="20sp"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:textSize="15sp"
                 android:text="개인정보 수집 및 이용"/>
 
             <Space
-                android:layout_width="118.3dp"
+                android:layout_width="118.3sp"
                 android:layout_height="wrap_content"/>
 
             <ImageButton
                 android:id="@+id/second_right"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="20sp"
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
@@ -117,32 +131,32 @@
                 android:id="@+id/third_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="20sp"
                 android:background="@drawable/ic_baseline_beforecheck_24"
                 />
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="20sp"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:textSize="15sp"
                 android:text="이용 약관 동의"/>
 
             <Space
-                android:layout_width="164dp"
+                android:layout_width="164sp"
                 android:layout_height="wrap_content"/>
 
             <ImageButton
                 android:id="@+id/third_right"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginTop="20sp"
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
@@ -151,36 +165,38 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="15sp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="2sp"
             android:background="#E5E5E5"/>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
             <Button
-                android:layout_width="300dp"
+                android:layout_width="300sp"
                 android:layout_height="wrap_content"
                 android:text="확인"
                 android:textStyle="bold"
                 android:clickable="false"
                 android:backgroundTint="#E5E5E5"
                 android:visibility="visible"
-                android:layout_marginTop="50dp"/>
+                android:layout_gravity="center"
+                />
 
             <Button
                 android:id="@+id/rule_page_btn"
-                android:layout_width="300dp"
+                android:layout_width="300sp"
                 android:layout_height="wrap_content"
                 android:text="확인"
                 android:textStyle="bold"
                 android:clickable="false"
                 android:backgroundTint="#B4E5FF"
+                android:layout_gravity="center"
                 android:visibility="invisible"
-                android:layout_marginTop="50dp"/>
+                />
 
         </FrameLayout>
 

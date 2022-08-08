@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="16sp"
     android:background="@drawable/subwayback">
 
     <TextView
@@ -20,7 +20,7 @@
         android:id="@+id/loading_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20sp"/>
 
 
 </RelativeLayout>

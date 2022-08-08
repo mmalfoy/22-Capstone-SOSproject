@@ -51,12 +51,12 @@
                     android:text="S.O.S"
                     android:layout_gravity="center"
                     android:id="@+id/toolbar_title"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     />
 
                 <ImageButton
                     android:id="@+id/btn_setting"
-                    android:layout_width="50dp"
+                    android:layout_width="50sp"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:src="@drawable/ic_baseline_settings_24"
@@ -78,15 +78,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ddcoding"
                     android:text="hihi"
-                    android:textSize="30dp" />
+                    android:textSize="30sp" />
 
 
 
 
                 <ImageButton
                     android:id="@+id/personal_Card"
-                    android:layout_width="260dp"
-                    android:layout_height="380dp"
+                    android:layout_width="260sp"
+                    android:layout_height="380sp"
                     android:layout_centerInParent="true"
                     android:clickable="true"
                     android:background="@drawable/paycard"
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/tagger"
-                    android:layout_marginTop="320dp"
+                    android:layout_marginTop="320sp"
                     android:id="@+id/nfcReader"
                     android:visibility="invisible"
                     android:orientation="vertical"
@@ -104,9 +104,9 @@
 
                     <ImageView
                         android:id="@+id/hand"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_width="200sp"
+                        android:layout_height="200sp"
+                        android:layout_marginTop="20sp"
                         android:src="@drawable/hand"
                         />
 
@@ -114,8 +114,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="40dp"
-                        android:textSize="20dp"
+                        android:layout_marginTop="40sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:text="휴대폰을 태그와 가깝게 위치시켜 주세요!"
                         android:fontFamily="@font/ddcoding"
