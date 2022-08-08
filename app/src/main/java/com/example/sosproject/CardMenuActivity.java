@@ -2,6 +2,7 @@ package com.example.sosproject;
 
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CardMenuActivity extends AppCompatActivity {

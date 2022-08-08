@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     //DB 테스트
     protected PeopleDBHelper dbHelper;
     private TextView test;
+    TextView personal_name;
+    public static String NAME;
     static final String DB_NAME = "personal.db";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +79,13 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         //내부 DB관련 코드
 
         test = findViewById(R.id.testt);
+        personal_name = findViewById(R.id.personal_name);
 
         dbHelper = new PeopleDBHelper(this,DB_NAME,1);
 
         //dbHelper.insertRecord("손현석", 1998);
 
-        int isit = printTabletest("하이");
+        int isit = printTabletest("손현석");
         Log.d("TAG","isit : "+isit);
 
 
@@ -95,19 +101,21 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
         //menu 관련 코드
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerView = (View)findViewById(R.id.menu);
 
-        ImageButton btn_menu = (ImageButton) findViewById(R.id.btn_menu);
-        btn_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(drawerView);
-            }
-        });
+        setSupportActionBar(toolbar);
 
-        Button btn_cardMenu = (Button)findViewById(R.id.btn_cardMenu);
+        new SlidingRootNavBuilder(this)
+                .withToolbarMenuToggle(toolbar)
+                .withMenuOpened(false)
+                .withMenuLayout(R.layout.menu)
+                .inject();
+
+
+
+        LinearLayout btn_cardMenu = (LinearLayout)findViewById(R.id.btn_cardMenu);
         btn_cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +125,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             }
         });
 
-        Button btn_history = (Button)findViewById(R.id.btn_history);
+        LinearLayout btn_history = (LinearLayout)findViewById(R.id.btn_history);
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +135,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             }
         });
 
-        Button btn_gps = (Button)findViewById(R.id.btn_gps);
+        LinearLayout btn_gps = (LinearLayout)findViewById(R.id.btn_gps);
         btn_gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,13 +144,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             }
         });
 
-        Button btn_close = (Button)findViewById(R.id.btn_close);
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.closeDrawers();
-            }
-        });
+
 
 
 
@@ -242,12 +244,15 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         int isit = 0;
         Cursor cursor = dbHelper.readRecordOrderByAge();
         String result = "";
-
+        String person_name = "";
+        String name = "";
 
         while (cursor.moveToNext()) {
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
+            //person_name = name;
             if(name.equals(thename))
+                person_name = name;
                 isit = 1;
             int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
 
@@ -255,6 +260,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         }
 
         test.setText(result);
+        //personal_name.setText(person_name);
         cursor.close();
         return isit;
     }

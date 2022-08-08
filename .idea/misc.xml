@@ -33,6 +33,7 @@
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_loading.xml" value="0.33" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_loading_animation.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_main_menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_setting.xml" value="0.26766304347826086" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_splash.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/activity_user_actibity.xml" value="0.17755825734549138" />
@@ -40,9 +41,10 @@
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/frame_2.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/frame_3.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/frame_4.xml" value="0.17755825734549138" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/menu.xml" value="0.26766304347826086" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/menu.xml" value="0.33" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/pref_settings.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/setting.xml" value="0.1" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/toolbar_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/xml/pref_settings.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/xml/preferences.xml" value="0.27341772151898736" />
       </map>
