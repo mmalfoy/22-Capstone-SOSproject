@@ -73,12 +73,14 @@
                 android:id="@+id/cardLayout">
 
                 <TextView
-                    android:id="@+id/testt"
+                    android:id="@+id/txt_json"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ddcoding"
                     android:text="hihi"
                     android:textSize="30dp" />
+
+
 
 
                 <ImageButton

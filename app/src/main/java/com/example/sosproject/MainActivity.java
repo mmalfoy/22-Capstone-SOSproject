@@ -39,6 +39,13 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 //1. 회원정보 동의 한 정보 기기에 어떻게 저장..?
 public class MainActivity extends AppCompatActivity {//extends Calender{
@@ -62,30 +69,67 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     protected PeopleDBHelper dbHelper;
     private TextView test;
     TextView personal_name;
-    public static String NAME;
+    private String NAME = "Defalut";
+    private String CHARGE = "10,000";
     static final String DB_NAME = "personal.db";
+
+
+    // Retrofit (Spring server 연결부)
+    static final String p_id = "990422";
+    Retrofit retrofit;
+    RetrofitAPI retrofitApi;
+    Call<List<UserInfo>> call;
+    TextView textView;
+    UserInfo p_userInfo;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-
-
         //로딩화면 관련 코드
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
 
+        // server 연결 코드
+        retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+        call = retrofitApi.getMember();
+
+        call.enqueue(new Callback<List<UserInfo>>() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
+                if(response.isSuccessful()){
+                    textView = (TextView) findViewById(R.id.txt_json);
+
+                    //p_userInfo = response.body().stream().filter(id -> p_id.equals(response.getId())).findAny().orElse(null);
+
+
+                    //textView.setText(Integer.toString(idx));
+
+                }else{
+                    Log.e("MainActivity","response but fail");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
+                Log.e("MainActivity!!!", "fail");
+                t.printStackTrace();
+            }
+        });
+
         //내부 DB관련 코드
 
-        test = findViewById(R.id.testt);
+        test = findViewById(R.id.txt_json);
         personal_name = findViewById(R.id.personal_name);
 
         dbHelper = new PeopleDBHelper(this,DB_NAME,1);
 
         //dbHelper.insertRecord("손현석", 1998);
 
-        int isit = printTabletest("손현석");
+        int isit = printTabletest("하이");
         Log.d("TAG","isit : "+isit);
 
 
@@ -112,6 +156,30 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 .withMenuOpened(false)
                 .withMenuLayout(R.layout.menu)
                 .inject();
+
+        // 메뉴의 이름, 요금 변경관련 코드
+        // 이름은 NAME으로 받음(print함수에 전달되는 thename파라미터값이 NAME임)
+        // 요금은 CHARGE로 받음(이건 만원으로 해둠)
+        //nameChanger(name); 필요하면 함수 만들기
+        chargeChanger(10000); // -> 10,000
+
+        class NewRunnable implements Runnable{
+            int n = 1;
+            TextView personal_name = (TextView)findViewById(R.id.personal_name);
+            TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
+            @Override
+            public void run(){
+                while(n>0){
+                    String name = NAME;
+                    personal_name.setText(NAME);
+                    personal_charge.setText(CHARGE);
+                    n--;
+                }
+            }
+        }
+        NewRunnable nr = new NewRunnable();
+        Thread t = new Thread(nr);
+        t.start();
 
 
 
@@ -251,9 +319,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
             name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
             //person_name = name;
-            if(name.equals(thename))
+            if(name.equals(thename)){
                 person_name = name;
+                NAME = name;
                 isit = 1;
+            }
             int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
 
             result += itemId + " " + name + " " + age + "\n";
@@ -289,5 +359,16 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void chargeChanger(int charge){
+        String temp = Integer.toString(charge);
+        for(int i =3; temp.length()-i>0;i+=4){
+            temp = new StringBuilder(temp).insert(temp.length()-i,",").toString();
+        }
+
+        CHARGE = temp;
+
+    }
+
 
 }
