@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     protected PeopleDBHelper dbHelper;
     private TextView test;
     TextView personal_name;
-    private String NAME = "Defalut";
-    private String CHARGE = "10,000";
+    private String NAME;
+    private String CHARGE;
     static final String DB_NAME = "personal.db";
 
 
@@ -102,11 +102,16 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
                 if(response.isSuccessful()){
                     textView = (TextView) findViewById(R.id.txt_json);
-
+                    List<UserInfo> list = response.body();
+                    p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
                     //p_userInfo = response.body().stream().filter(id -> p_id.equals(response.getId())).findAny().orElse(null);
-
-
-                    //textView.setText(Integer.toString(idx));
+                    if(p_userInfo.getId().equals(p_id))
+                        Log.e("MainActivity", Integer.toString(p_userInfo.getTotal_fare()));
+                    else
+                        Log.e("MainActivity", "p_userInfo_fail");
+                    NAME = p_userInfo.getId();
+                    //textView.setText(p_userInfo.getTotal_fare());
+                    chargeChanger(p_userInfo.getTotal_fare()); // -> 10,000
 
                 }else{
                     Log.e("MainActivity","response but fail");
@@ -122,6 +127,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         //내부 DB관련 코드
 
+        // Log.e("after", Integer.toString(p_userInfo.getTotal_fare()));
+        // Log.e("after", NAME);
         test = findViewById(R.id.txt_json);
         personal_name = findViewById(R.id.personal_name);
 
@@ -161,7 +168,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         // 이름은 NAME으로 받음(print함수에 전달되는 thename파라미터값이 NAME임)
         // 요금은 CHARGE로 받음(이건 만원으로 해둠)
         //nameChanger(name); 필요하면 함수 만들기
-        chargeChanger(10000); // -> 10,000
+       // chargeChanger(10000); // -> 10,000
 
         class NewRunnable implements Runnable{
             int n = 1;
