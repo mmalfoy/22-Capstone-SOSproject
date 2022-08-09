@@ -9,5 +9,4 @@ import retrofit2.http.Path;
 public interface RetrofitAPI {
     @GET("user/all")
     Call<List<UserInfo>> getMember();
-
 }

@@ -2,8 +2,8 @@ package com.example.sosproject;
 
 import com.google.gson.annotations.SerializedName;
 
+// UserInfo
 public class UserInfo {
-
     private String id;
 
     @SerializedName("age")
