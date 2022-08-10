@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import java.io.IOException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     // Retrofit (Spring server 연결부)
-    static final String p_id = "990422";
+    static final String p_id = "2";
     Retrofit retrofit;
     RetrofitAPI retrofitApi;
     Call<List<UserInfo>> call;
@@ -91,39 +92,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
 
-        // server 연결 코드
-        retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
-        call = retrofitApi.getMember();
 
-        call.enqueue(new Callback<List<UserInfo>>() {
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-                if(response.isSuccessful()){
-                    textView = (TextView) findViewById(R.id.txt_json);
-                    List<UserInfo> list = response.body();
-                    p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
-                    //p_userInfo = response.body().stream().filter(id -> p_id.equals(response.getId())).findAny().orElse(null);
-                    if(p_userInfo.getId().equals(p_id))
-                        Log.e("MainActivity", Integer.toString(p_userInfo.getTotal_fare()));
-                    else
-                        Log.e("MainActivity", "p_userInfo_fail");
-                    NAME = p_userInfo.getId();
-                    //textView.setText(p_userInfo.getTotal_fare());
-                    chargeChanger(p_userInfo.getTotal_fare()); // -> 10,000
-
-                }else{
-                    Log.e("MainActivity","response but fail");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-                Log.e("MainActivity!!!", "fail");
-                t.printStackTrace();
-            }
-        });
 
         //내부 DB관련 코드
 
@@ -156,6 +125,46 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         toolbar.setTitle("");
 
 
+        // server 연결 코드결
+        // retrofitAPI interface 구현
+        retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+        call = retrofitApi.getMember();
+
+        call.enqueue(new Callback<List<UserInfo>>() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
+                // 통신이 잘 이뤄지면
+                if(response.isSuccessful()){
+                    List<UserInfo> list = response.body(); // DB의 데이터를 List<UserInfo> 형태로 읽어들임
+                    // list에서 p_id를 id로 갖는 UserInfo 타입의 객체를 p_userInfo에 저장
+                    p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
+
+                    // NAME에 p_userInfo.getId() 할당
+                    NAME = p_userInfo.getId();
+                    // CHARGE에 p_userInfo.getTotal_fare() 할당
+                    chargeChanger(p_userInfo.getTotal_fare()); // -> 10,000과 같이 세 자리 ,로 끊는 함수
+
+
+                    TextView personal_name = (TextView)findViewById(R.id.personal_name);
+                    TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
+
+                    personal_name.setText(NAME);
+                    personal_charge.setText(CHARGE);
+
+                }else{
+                    Log.e("MainActivity","response but fail");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
+                Log.e("MainActivity!!!", "fail");
+                t.printStackTrace();
+            }
+        });
+
         setSupportActionBar(toolbar);
 
         new SlidingRootNavBuilder(this)
@@ -168,25 +177,31 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         // 이름은 NAME으로 받음(print함수에 전달되는 thename파라미터값이 NAME임)
         // 요금은 CHARGE로 받음(이건 만원으로 해둠)
         //nameChanger(name); 필요하면 함수 만들기
-       // chargeChanger(10000); // -> 10,000
 
-        class NewRunnable implements Runnable{
-            int n = 1;
-            TextView personal_name = (TextView)findViewById(R.id.personal_name);
-            TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
-            @Override
-            public void run(){
-                while(n>0){
-                    String name = NAME;
-                    personal_name.setText(NAME);
-                    personal_charge.setText(CHARGE);
-                    n--;
-                }
-            }
-        }
-        NewRunnable nr = new NewRunnable();
-        Thread t = new Thread(nr);
-        t.start();
+        // Retrofit 통신이 비동기적으로 발생해서 Retrofit callback 함수 내에서 NAME이랑 CHARGE를 할당하는 작업이
+        // NewRunnable 쓰레드가 돌아간 이후에 실행되는 것 같아서
+        // personal_name, personal_charge에 값을 할당하는 부분을 Retrofit callback 함수 내에 넣었습니다
+//        class NewRunnable implements Runnable{
+//            int n = 1;
+//            TextView personal_name = (TextView)findViewById(R.id.personal_name);
+//            TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
+//
+//            @Override
+//            public void run(){
+//                while(n>0){
+//                    String name = NAME;
+//                    personal_name.setText(NAME);
+//                    personal_charge.setText(CHARGE);
+//                    n--;
+//                }
+//            }
+//        }
+
+
+
+//        NewRunnable nr = new NewRunnable();
+//        Thread t = new Thread(nr);
+//        t.start();
 
 
 

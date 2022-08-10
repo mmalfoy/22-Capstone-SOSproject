@@ -47,7 +47,11 @@
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/layout/toolbar_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/xml/pref_settings.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/sosProject/app/src/main/res/xml/preferences.xml" value="0.27341772151898736" />
+        <entry key="app/src/main/res/layout/activity_before_login_explane.xml" value="0.1859375" />
         <entry key="app/src/main/res/layout/activity_card_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_history.xml" value="0.1859375" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1859375" />
+        <entry key="app/src/main/res/layout/activity_loading_animation.xml" value="0.1859375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23097076416015627" />
         <entry key="app/src/main/res/layout/menu.xml" value="0.1" />
       </map>
