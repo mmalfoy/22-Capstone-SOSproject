@@ -90,33 +90,31 @@
                     android:clickable="true" />
 
                 <LinearLayout
+                    android:id="@+id/nfcReader"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/tagger"
                     android:layout_marginTop="320sp"
-                    android:id="@+id/nfcReader"
-                    android:visibility="invisible"
+                    android:background="@drawable/tagger"
                     android:orientation="vertical"
-                    >
+                    android:visibility="invisible">
 
                     <ImageView
                         android:id="@+id/hand"
                         android:layout_width="200sp"
                         android:layout_height="200sp"
                         android:layout_marginTop="20sp"
-                        android:src="@drawable/hand"
-                        />
+                        android:src="@drawable/hand" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="40sp"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="휴대폰을 태그와 가깝게 위치시켜 주세요!"
                         android:fontFamily="@font/ddcoding"
-                        android:textColor="@color/white"/>
+                        android:text="휴대폰을 태그와 가깝게 위치시켜 주세요!"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

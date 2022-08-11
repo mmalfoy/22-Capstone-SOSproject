@@ -61,6 +61,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id = "@+id/history_total_fare"
                 android:gravity="right"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.ComponentName;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.app.Activity;
@@ -70,8 +71,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     protected PeopleDBHelper dbHelper;
     private TextView test;
     TextView personal_name;
-    private String NAME;
-    private String CHARGE;
+    protected String NAME;
+    protected String CHARGE;
     static final String DB_NAME = "personal.db";
 
 
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         //로딩화면 관련 코드
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
+//        Log.e("before after Retrofit", CHARGE);
+//        Log.e("before after Retrofit", NAME);
 
 
 
@@ -108,7 +111,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         int isit = printTabletest("하이");
         Log.d("TAG","isit : "+isit);
 
-
         //앱 처음 실행시 코드
         if(isit != 1) {
 
@@ -118,7 +120,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         main_activity = (LinearLayout)findViewById(R.id.main_activity);
         main_activity.setVisibility(View.VISIBLE);
-
 
         //menu 관련 코드
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -145,7 +146,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                     NAME = p_userInfo.getId();
                     // CHARGE에 p_userInfo.getTotal_fare() 할당
                     chargeChanger(p_userInfo.getTotal_fare()); // -> 10,000과 같이 세 자리 ,로 끊는 함수
-
 
                     TextView personal_name = (TextView)findViewById(R.id.personal_name);
                     TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
@@ -204,7 +204,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //        t.start();
 
 
-
+//        Log.e("Main after Retrofit", CHARGE);
+//        Log.e("Main after Retrofit", NAME);
         LinearLayout btn_cardMenu = (LinearLayout)findViewById(R.id.btn_cardMenu);
         btn_cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,178 +220,180 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent();
+                ComponentName componentName = new ComponentName(
+                        "com.example.sosproject","com.example.sosproject.HistoryActivity");
+                intent.setComponent(componentName);
 
-                Intent intent = new Intent(MainActivity.this,HistoryActivity.class);
+                intent.putExtra("TOTAL", CHARGE);
                 startActivity(intent);
             }
         });
 
-        LinearLayout btn_gps = (LinearLayout)findViewById(R.id.btn_gps);
-        btn_gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "지하철 노선도 확인",Toast.LENGTH_SHORT).show();
 
-            }
-        });
-
-
-
-
-
-        //setting 관련 코드
-        ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
-        btn_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SettingActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein_right,R.anim.stay);
-
-            }
-        });
-
-
-
-
-        //main NFC태그 관련 코드
-        hand = (ImageView)findViewById(R.id.hand);
-        nfcReader = (LinearLayout)findViewById(R.id.nfcReader);
-        card = (ImageButton)findViewById(R.id.personal_Card);
-
-        card.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(cardcounter == 0) {
-                    nfcReader.setVisibility(View.VISIBLE);
-
-                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.card_anim); //에니메이션설정파일
-                    card.startAnimation(cardAnim);
-
-                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.nfc_anim); //에니메이션설정파일
-                    nfcReader.startAnimation(nfcAnim);
-
-                    card.setClickable(false);
-                    handcounter = 1;
-
-                    if(handcounter == 1){
-
-                        handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                R.anim.hand_anim); //에니메이션설정파일
-                        hand.startAnimation(handAnim);
+                LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
+                btn_gps.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
 
                     }
+                });
 
 
+                //setting 관련 코드
+                ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
+                btn_setting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fadein_right, R.anim.stay);
 
-                    cardcounter = 1;
-                }
+                    }
+                });
+
+
+                //main NFC태그 관련 코드
+                hand = (ImageView) findViewById(R.id.hand);
+                nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
+                card = (ImageButton) findViewById(R.id.personal_Card);
+
+                card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // personal_card를 누를 시 cardcounter가 0이면
+                        if (cardcounter == 0) {
+
+                            // nfcReader LinearLayout이 보여짐
+                            nfcReader.setVisibility(View.VISIBLE);
+
+                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.card_anim); //에니메이션설정파일
+                            card.startAnimation(cardAnim);
+
+                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.nfc_anim); //에니메이션설정파일
+                            nfcReader.startAnimation(nfcAnim);
+
+                            card.setClickable(false);
+                            handcounter = 1;
+
+                            if (handcounter == 1) {
+
+                                handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                        R.anim.hand_anim); //에니메이션설정파일
+                                hand.startAnimation(handAnim);
+
+
+                            }
+
+
+                            cardcounter = 1;
+                        }
+                    }
+
+                });
+
+                cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+                cardLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (cardcounter == 1) {
+
+                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.card2_anim); //에니메이션설정파일
+                            card.startAnimation(cardAnim);
+
+                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.nfc2_anim); //에니메이션설정파일
+                            nfcReader.startAnimation(nfcAnim);
+
+
+                            nfcReader.setVisibility(View.INVISIBLE);
+                            card.setClickable(true);
+                            cardcounter = 0;
+                            handcounter = 0;
+                        }
+                    }
+
+                });
+
+
             }
 
-        });
+            //DB 테스트
+            private void dbDataDelete(String target) {
 
-        cardLayout = (RelativeLayout)findViewById(R.id.cardLayout);
-        cardLayout.setOnClickListener(new View.OnClickListener(){
+                String sql = "delete * from mycontacts where name=" + "'" + target + "'";
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.execSQL(sql);
+
+            }
+
+            protected int printTabletest(String thename) {
+
+
+                int isit = 0;
+                Cursor cursor = dbHelper.readRecordOrderByAge();
+                String result = "";
+                String person_name = "";
+                String name = "";
+
+                while (cursor.moveToNext()) {
+                    int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
+                    name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
+                    //person_name = name;
+                    if (name.equals(thename)) {
+                        person_name = name;
+                        NAME = name;
+                        isit = 1;
+                    }
+                    int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
+
+                    result += itemId + " " + name + " " + age + "\n";
+                }
+
+                test.setText(result);
+                //personal_name.setText(person_name);
+                cursor.close();
+                return isit;
+            }
+
             @Override
-            public void onClick(View v) {
-                if(cardcounter == 1) {
+            protected void onDestroy() {
+                dbHelper.close();
+                super.onDestroy();
+            }
 
-                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.card2_anim); //에니메이션설정파일
-                    card.startAnimation(cardAnim);
+            //뒤로가기 버튼 클릭 관련 코드
+            private final long finishtimeed = 1000;
+            private long presstime = 0;
 
-                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.nfc2_anim); //에니메이션설정파일
-                    nfcReader.startAnimation(nfcAnim);
+            @Override
+            public void onBackPressed() {
+                long tempTime = System.currentTimeMillis();
+                long intervalTime = tempTime - presstime;
 
-
-                    nfcReader.setVisibility(View.INVISIBLE);
-                    card.setClickable(true);
-                    cardcounter = 0;
-                    handcounter = 0;
+                if (0 <= intervalTime && finishtimeed >= intervalTime) {
+                    finish();
+                } else {
+                    presstime = tempTime;
+                    Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
                 }
             }
 
-            });
+            public void chargeChanger(int charge) {
+                String temp = Integer.toString(charge);
+                for (int i = 3; temp.length() - i > 0; i += 4) {
+                    temp = new StringBuilder(temp).insert(temp.length() - i, ",").toString();
+                }
 
+                CHARGE = temp;
 
-
-    }
-
-    //DB 테스트
-    private void dbDataDelete(String target){
-
-        String sql = "delete * from mycontacts where name="+"'"+target+"'";
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.execSQL(sql);
-
-    }
-
-    protected int printTabletest(String thename) {
-
-
-        int isit = 0;
-        Cursor cursor = dbHelper.readRecordOrderByAge();
-        String result = "";
-        String person_name = "";
-        String name = "";
-
-        while (cursor.moveToNext()) {
-            int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
-            name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
-            //person_name = name;
-            if(name.equals(thename)){
-                person_name = name;
-                NAME = name;
-                isit = 1;
             }
-            int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
-
-            result += itemId + " " + name + " " + age + "\n";
-        }
-
-        test.setText(result);
-        //personal_name.setText(person_name);
-        cursor.close();
-        return isit;
-    }
-
-    @Override
-    protected void onDestroy() {
-        dbHelper.close();
-        super.onDestroy();
-    }
-
-    //뒤로가기 버튼 클릭 관련 코드
-    private final long finishtimeed = 1000;
-    private long presstime = 0;
-    @Override
-    public void onBackPressed() {
-        long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - presstime;
-
-        if (0 <= intervalTime && finishtimeed >= intervalTime)
-        {
-            finish();
-        }
-        else
-        {
-            presstime = tempTime;
-            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void chargeChanger(int charge){
-        String temp = Integer.toString(charge);
-        for(int i =3; temp.length()-i>0;i+=4){
-            temp = new StringBuilder(temp).insert(temp.length()-i,",").toString();
-        }
-
-        CHARGE = temp;
-
-    }
 
 
 }
