@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     protected PeopleDBHelper dbHelper;
     private TextView test;
     TextView personal_name;
-    protected String NAME;
-    protected String CHARGE;
+    static String NAME;
+    static String CHARGE;
     static final String DB_NAME = "personal.db";
 
 
@@ -220,15 +220,15 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-//                startActivity(intent);
-                Intent intent = new Intent();
-                ComponentName componentName = new ComponentName(
-                        "com.example.sosproject","com.example.sosproject.HistoryActivity");
-                intent.setComponent(componentName);
-
-                intent.putExtra("TOTAL", CHARGE);
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(intent);
+//                Intent intent = new Intent();
+//                ComponentName componentName = new ComponentName(
+//                        "com.example.sosproject","com.example.sosproject.HistoryActivity");
+//                intent.setComponent(componentName);
+//
+//                intent.putExtra("TOTAL", CHARGE);
+//                startActivity(intent);
             }
         });
 
