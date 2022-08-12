@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                                 handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                         R.anim.hand_anim); //에니메이션설정파일
                                 hand.startAnimation(handAnim);
-
+                                sendToDB(); // 하차시 DB에 데이터 전송
 
                             }
 
@@ -395,5 +395,31 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
             }
 
+            // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
+            public void sendToDB(){
+                // 누적 비용을 만들어서 전송할 거임
 
-}
+                String age = Integer.toString(p_userInfo.getAge());
+                String income = Integer.toString(p_userInfo.getIncome_grade());
+
+                p_userInfo.setTotal_fare(calculateFare(1, 4));
+
+                String temp = Integer.toString(p_userInfo.getTotal_fare());
+                Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
+            }
+
+            // 누적요금 합치는 공식 -> 예시임
+            public int calculateFare(int startStation, int endStation){
+                int base_fare = 1250;
+                int total_send = p_userInfo.getTotal_fare();
+                int age = p_userInfo.getAge();
+                int income = p_userInfo.getIncome_grade();
+                int distance = endStation - startStation;
+                total_send += base_fare + distance*(int)(income*0.05*100);
+                return total_send;
+            }
+
+
+
+
+    }
