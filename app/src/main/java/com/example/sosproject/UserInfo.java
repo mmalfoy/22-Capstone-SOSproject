@@ -48,6 +48,7 @@ public class UserInfo {
         this.total_fare = total_fare;
     }
 
+
     @Override
     public String toString(){
         return "UserInfo{" + "id='" + id + '\'' + ", age='" + age + '\'' + "income_grade='" + income_grade +'\'' + "total_fare='" + total_fare +'}';
