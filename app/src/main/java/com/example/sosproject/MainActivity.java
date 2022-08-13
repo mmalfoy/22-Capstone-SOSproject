@@ -77,11 +77,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     // Retrofit (Spring server 연결부)
-    static final String p_id = "2";
-    Retrofit retrofit;
-    RetrofitAPI retrofitApi;
-    Call<List<UserInfo>> call;
-    TextView textView;
+    static final String p_id = "990422";
+
     UserInfo p_userInfo;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +92,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //        Log.e("before after Retrofit", CHARGE);
 //        Log.e("before after Retrofit", NAME);
 
-
-
-        //내부 DB관련 코드
+        // 내부 DB관련 코드
 
         // Log.e("after", Integer.toString(p_userInfo.getTotal_fare()));
         // Log.e("after", NAME);
@@ -128,42 +123,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         // server 연결 코드결
         // retrofitAPI interface 구현
-        retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
-        call = retrofitApi.getMember();
 
-        call.enqueue(new Callback<List<UserInfo>>() {
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-                // 통신이 잘 이뤄지면
-                if(response.isSuccessful()){
-                    List<UserInfo> list = response.body(); // DB의 데이터를 List<UserInfo> 형태로 읽어들임
-                    // list에서 p_id를 id로 갖는 UserInfo 타입의 객체를 p_userInfo에 저장
-                    p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
-
-                    // NAME에 p_userInfo.getId() 할당
-                    NAME = p_userInfo.getId();
-                    // CHARGE에 p_userInfo.getTotal_fare() 할당
-                    chargeChanger(p_userInfo.getTotal_fare()); // -> 10,000과 같이 세 자리 ,로 끊는 함수
-
-                    TextView personal_name = (TextView)findViewById(R.id.personal_name);
-                    TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
-
-                    personal_name.setText(NAME);
-                    personal_charge.setText(CHARGE);
-
-                }else{
-                    Log.e("MainActivity","response but fail");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-                Log.e("MainActivity!!!", "fail");
-                t.printStackTrace();
-            }
-        });
+        selectDB();
 
         setSupportActionBar(toolbar);
 
@@ -222,13 +183,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(intent);
-//                Intent intent = new Intent();
-//                ComponentName componentName = new ComponentName(
-//                        "com.example.sosproject","com.example.sosproject.HistoryActivity");
-//                intent.setComponent(componentName);
-//
-//                intent.putExtra("TOTAL", CHARGE);
-//                startActivity(intent);
             }
         });
 
@@ -286,7 +240,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                                 handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                         R.anim.hand_anim); //에니메이션설정파일
                                 hand.startAnimation(handAnim);
-                                sendToDB(); // 하차시 DB에 데이터 전송
+                                // sendToDB(); // 하차시 DB에 데이터 전송
 
                             }
 
@@ -324,7 +278,9 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
             }
 
-            //DB 테스트
+
+
+    //DB 테스트
             private void dbDataDelete(String target) {
 
                 String sql = "delete * from mycontacts where name=" + "'" + target + "'";
@@ -402,13 +358,18 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 String age = Integer.toString(p_userInfo.getAge());
                 String income = Integer.toString(p_userInfo.getIncome_grade());
 
-                p_userInfo.setTotal_fare(calculateFare(1, 4));
+                UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
+                n_userInfo.setTotal_fare(calculateFare(1, 4));
 
-                String temp = Integer.toString(p_userInfo.getTotal_fare());
+                String temp = Integer.toString(n_userInfo.getTotal_fare());
+
+                updateDB(n_userInfo);
                 Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
+
             }
 
-            // 누적요금 합치는 공식 -> 예시임
+
+    // 누적요금 합치는 공식 -> 예시임
             public int calculateFare(int startStation, int endStation){
                 int base_fare = 1250;
                 int total_send = p_userInfo.getTotal_fare();
@@ -416,10 +377,68 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 int income = p_userInfo.getIncome_grade();
                 int distance = endStation - startStation;
                 total_send += base_fare + distance*(int)(income*0.05*100);
+                p_userInfo.setTotal_fare(total_send);
                 return total_send;
             }
 
+    // Retrofit 통신으로
+    private void selectDB() {
+        RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+        Call<UserInfo> call = retrofitApi.getMember(p_id);
 
+        call.enqueue(new Callback<UserInfo>() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                // 통신이 잘 이뤄지면
+                if (response.isSuccessful()) {
+                    UserInfo s_userInfo = response.body(); // DB의 데이터를 List<UserInfo> 형태로 읽어들임
+                    // list에서 p_id를 id로 갖는 UserInfo 타입의 객체를 p_userInfo에 저장
+                    // p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
+                    p_userInfo = s_userInfo;
+                    // NAME에 p_userInfo.getId() 할당
+                    String name = s_userInfo.getId();
+                    // CHARGE에 p_userInfo.getTotal_fare() 할당
+                    chargeChanger(s_userInfo.getTotal_fare()); // -> 10,000과 같이 세 자리 ,로 끊는 함수
+
+                    TextView personal_name = (TextView) findViewById(R.id.personal_name);
+                    TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
+
+                    personal_name.setText(name);
+                    personal_charge.setText(CHARGE);
+
+                } else {
+                    Log.e("SelectDB", "response but fail");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                Log.e("SelectDB", "fail");
+                t.printStackTrace();
+            }
+        });
+    }
+
+        private void updateDB(UserInfo u_userInfo) {
+                RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+            Call <UserInfo> call = retrofitApi.updateMember(p_id, u_userInfo);
+            Log.e("updateDB", p_id);
+            call.enqueue(new Callback<UserInfo>() {
+                @Override
+                public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                    UserInfo u = response.body();
+                    Log.e("updateDB", Integer.toString(u.getTotal_fare()));
+                }
+
+                @Override
+                public void onFailure(Call<UserInfo> call, Throwable t) {
+                    Log.e("SelectDB", "fail");
+                    t.printStackTrace();
+                }
+            });
+        }
 
 
     }

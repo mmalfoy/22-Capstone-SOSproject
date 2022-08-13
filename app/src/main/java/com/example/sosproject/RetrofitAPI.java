@@ -3,13 +3,19 @@ package com.example.sosproject;
 
 import java.util.List;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface RetrofitAPI {
-    @GET("user/all")
-    Call<List<UserInfo>> getMember();
+    @GET("user/{id}")
+    Call<UserInfo> getMember(@Path("id") String id);
 
-    //@POST()
+
+    @PUT("user/{id}")
+    Call<UserInfo> updateMember(@Path("id") String id, @Body UserInfo userinfo);
 }
