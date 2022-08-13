@@ -9,6 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+//미 구현 : 최신, 과거순 뷰 정렬
+//         조회 기간에 따른 데이터 확인
+//         상세 조회시 버튼 클릭 처리
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -24,41 +30,21 @@ public class HistoryActivity extends AppCompatActivity {
     private TextView text_sort;
     private int sort_check = 0;
 
-    private LinearLayout history_1;
-    private LinearLayout history_2;
-    private LinearLayout history_3;
-    private LinearLayout history_4;
-    private LinearLayout history_5;
-    private LinearLayout history_6;
-    private LinearLayout history_7;
-    private LinearLayout history_8;
-    private LinearLayout history_9;
-    private LinearLayout history_10;
-    private LinearLayout history_11;
-    private LinearLayout history_12;
-    private LinearLayout history_13;
-    private LinearLayout history_14;
-    private LinearLayout history_15;
-    private LinearLayout history_16;
-    private LinearLayout history_17;
-    private LinearLayout history_18;
-    private LinearLayout history_19;
-    private LinearLayout history_20;
-    private LinearLayout history_21;
-    private LinearLayout history_22;
-    private LinearLayout history_23;
-    private LinearLayout history_24;
-    private LinearLayout history_25;
-    private LinearLayout history_26;
-    private LinearLayout history_27;
-    private LinearLayout history_28;
-    private LinearLayout history_29;
-    private LinearLayout history_30;
+    RecyclerView recyclerView;
+    Adapter_History adapter;
+
+    //DB에서 가져온 데이터 개수
+    private int SIZE = 30;
+
+    //DB에서 가져올 값
+    private int DAY; //몇일에 탔는지(내부 DB로도 구현 가능)
+    private int PAY; //그때 얼마 나왔는지
+    private int[] WHERE = {0,0}; //어디서 어디로 가는지 (역의 코드 번호 2개의 쌍 만 있으면 됨) ex)신림(0)->숭입(10) == [0,10]
+    private int TIME; //몇시에 탔는지(내부 DB로도 구현 가능)
+    private int SUM = 0; //총 금액
 
 
-    private TextView day_1;
-    private TextView pay_1;
-    private TextView where_1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,14 +139,107 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
-        history_1 = (LinearLayout) findViewById(R.id.view_history1);
 
-        pay_1 = (TextView) findViewById(R.id.pay_1);
-        where_1 = (TextView) findViewById(R.id.where_1);
-        day_1 = (TextView) findViewById(R.id.day_1);
+        //내역 출력 관련 코드
+        recyclerView = (RecyclerView)findViewById(R.id.recyceler_history);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false)) ;
+
+        adapter = new Adapter_History();
+
+        //예시, setArrayData로 각각의 값을 넣어주면, 마련된 ArrayList로 값이 저장됨
+
+        for (int i = 0; i < SIZE; i++) {
+
+            String str_day = dayChanger(220800+i);//여기에 값으로 몇일이였나 넣어주면 됨(수정)
+            adapter.setArrayData(str_day,0);
+
+            PAY = 1000+i; // 여기에 각각 얼마였는지 값으로 넣어주면 됨(수정)
+            String str_pay = chargeChanger_history(PAY) + " 원";
+            adapter.setArrayData(str_pay,1);
+
+            WHERE = new int[] {0,1}; //여기 뒤에 {, } 내용만 넣어주면 됨(수정)
+            String str_where = whereChanger(WHERE);
+            adapter.setArrayData(str_where,2);
+
+
+            SUM += PAY;
+            String str_sum = chargeChanger_history(SUM) + " 원";
+            adapter.setArrayData(str_sum,3);
+
+            TIME = 1600+i; //여기에 (몇시몇분) 값 넣어주면 됨
+            String str_time = timeChanger(TIME);
+            adapter.setArrayData(str_time,4);
+
+
+        }
+
+        recyclerView.setAdapter(adapter);
 
 
 
+
+
+
+    }
+
+    //날짜 int -> string
+    protected String dayChanger(int day) {
+        String temp = Integer.toString(day);
+        for (int i = 2; temp.length() - i > 0; i += 3) {
+            temp = new StringBuilder(temp).insert(temp.length() - i, ".").toString();
+        }
+        return temp;
+
+    }
+
+    //비용 int -> string
+    protected String chargeChanger_history(int charge) {
+        String temp = Integer.toString(charge);
+        for (int i = 3; temp.length() - i > 0; i += 4) {
+            temp = new StringBuilder(temp).insert(temp.length() - i, ",").toString();
+        }
+        return temp;
+
+    }
+
+
+    //역사 코드 -> 탑승내역 변환
+    protected String whereChanger(int[] WHERE) {
+        String temp = "";
+
+        for(int i=0; i<2;i++){
+
+            switch (WHERE[i]){
+                case 0:
+                    temp += "장승배기역";
+                    break;
+                case 1:
+                    temp += "상도역";
+                    break;
+                case 2:
+                    temp += "숭실대 입구역";
+                    break;
+                case 3:
+                    temp += "남성역";
+                    break;
+                case 4:
+                    temp += "이수역";
+                    break;
+
+            }
+            if(i == 0)
+                temp += " -> ";
+
+        }
+        return temp;
+
+    }
+
+    //비용 int -> string
+    protected String timeChanger(int time) {
+        String temp = Integer.toString(time);
+        temp = new StringBuilder(temp).insert(2, ":").toString();
+        return temp;
 
     }
 
