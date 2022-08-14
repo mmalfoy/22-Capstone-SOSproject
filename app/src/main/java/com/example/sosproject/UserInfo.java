@@ -7,15 +7,15 @@ public class UserInfo {
     private String id;
 
     @SerializedName("age")
-    private int age;
+        private String age;
 
     @SerializedName("income_grade")
-    private int income_grade;
+    private String income_grade;
 
     @SerializedName("total_fare")
-    private int total_fare;
+    private String total_fare;
 
-    public UserInfo(String id, int age, int income_grade, int total_fare) {
+    public UserInfo(String id, String age, String income_grade, String total_fare) {
         super();
         this.id = id;
         this.age = age;
@@ -29,22 +29,22 @@ public class UserInfo {
     public void setId(String id) {
         this.id = id;
     }
-    public int getAge() {
+    public String getAge() {
         return age;
     }
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
-    public int getIncome_grade() {
+    public String getIncome_grade() {
         return income_grade;
     }
-    public void setIncome_grade(int income_grade) {
+    public void setIncome_grade(String income_grade) {
         this.income_grade = income_grade;
     }
-    public int getTotal_fare() {
+    public String getTotal_fare() {
         return total_fare;
     }
-    public void setTotal_fare(int total_fare) {
+    public void setTotal_fare(String total_fare) {
         this.total_fare = total_fare;
     }
 

@@ -164,9 +164,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //        Thread t = new Thread(nr);
 //        t.start();
 
-
-//        Log.e("Main after Retrofit", CHARGE);
-//        Log.e("Main after Retrofit", NAME);
         LinearLayout btn_cardMenu = (LinearLayout)findViewById(R.id.btn_cardMenu);
         btn_cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,7 +237,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                                 handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                         R.anim.hand_anim); //에니메이션설정파일
                                 hand.startAnimation(handAnim);
-                                // sendToDB(); // 하차시 DB에 데이터 전송
+                                sendToDB(); // 하차시 DB에 데이터 전송
 
                             }
 
@@ -355,13 +352,13 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             public void sendToDB(){
                 // 누적 비용을 만들어서 전송할 거임
 
-                String age = Integer.toString(p_userInfo.getAge());
-                String income = Integer.toString(p_userInfo.getIncome_grade());
+                String age = p_userInfo.getAge();
+                String income = p_userInfo.getIncome_grade();
 
                 UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
-                n_userInfo.setTotal_fare(calculateFare(1, 4));
+                n_userInfo.setTotal_fare(Integer.toString(calculateFare(1, 4)));
 
-                String temp = Integer.toString(n_userInfo.getTotal_fare());
+                String temp = n_userInfo.getTotal_fare();
 
                 updateDB(n_userInfo);
                 Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
@@ -372,12 +369,12 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     // 누적요금 합치는 공식 -> 예시임
             public int calculateFare(int startStation, int endStation){
                 int base_fare = 1250;
-                int total_send = p_userInfo.getTotal_fare();
-                int age = p_userInfo.getAge();
-                int income = p_userInfo.getIncome_grade();
+                int total_send = Integer.parseInt(p_userInfo.getTotal_fare());
+                int age = Integer.parseInt(p_userInfo.getAge());
+                int income = Integer.parseInt(p_userInfo.getIncome_grade());
                 int distance = endStation - startStation;
                 total_send += base_fare + distance*(int)(income*0.05*100);
-                p_userInfo.setTotal_fare(total_send);
+                p_userInfo.setTotal_fare(Integer.toString(total_send));
                 return total_send;
             }
 
@@ -400,7 +397,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                     // NAME에 p_userInfo.getId() 할당
                     String name = s_userInfo.getId();
                     // CHARGE에 p_userInfo.getTotal_fare() 할당
-                    chargeChanger(s_userInfo.getTotal_fare()); // -> 10,000과 같이 세 자리 ,로 끊는 함수
+                    chargeChanger(Integer.parseInt(s_userInfo.getTotal_fare())); // -> 10,000과 같이 세 자리 ,로 끊는 함수
 
                     TextView personal_name = (TextView) findViewById(R.id.personal_name);
                     TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
@@ -423,13 +420,12 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         private void updateDB(UserInfo u_userInfo) {
                 RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
-            Call <UserInfo> call = retrofitApi.updateMember(p_id, u_userInfo);
-            Log.e("updateDB", p_id);
+            Call<UserInfo> call = retrofitApi.updateMember(u_userInfo.getId(), u_userInfo.getAge(), u_userInfo.getIncome_grade(), u_userInfo.getTotal_fare());
             call.enqueue(new Callback<UserInfo>() {
                 @Override
                 public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                    UserInfo u = response.body();
-                    Log.e("updateDB", Integer.toString(u.getTotal_fare()));
+
+                    Log.e("updateDB", u_userInfo.getTotal_fare());
                 }
 
                 @Override
