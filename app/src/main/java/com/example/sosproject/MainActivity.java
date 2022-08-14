@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.app.Activity;
@@ -15,8 +17,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +44,7 @@ import android.widget.Toast;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -51,6 +59,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 //1. 회원정보 동의 한 정보 기기에 어떻게 저장..?
 public class MainActivity extends AppCompatActivity {//extends Calender{
+    NfcAdapter nfcAdapter;
 
     private ImageButton card;
     private RelativeLayout cardLayout;
@@ -85,6 +94,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         //로딩화면 관련 코드
         Intent intent = new Intent(this, LoadingActivity.class);
@@ -278,92 +288,92 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     //DB 테스트
-            private void dbDataDelete(String target) {
+    private void dbDataDelete(String target) {
 
-                String sql = "delete * from mycontacts where name=" + "'" + target + "'";
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.execSQL(sql);
+        String sql = "delete * from mycontacts where name=" + "'" + target + "'";
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL(sql);
 
+    }
+
+    protected int printTabletest(String thename) {
+
+
+        int isit = 0;
+        Cursor cursor = dbHelper.readRecordOrderByAge();
+        String result = "";
+        String person_name = "";
+        String name = "";
+
+        while (cursor.moveToNext()) {
+            int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
+            //person_name = name;
+            if (name.equals(thename)) {
+                person_name = name;
+                NAME = name;
+                isit = 1;
             }
+            int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
 
-            protected int printTabletest(String thename) {
+            result += itemId + " " + name + " " + age + "\n";
+        }
 
+        test.setText(result);
+        //personal_name.setText(person_name);
+        cursor.close();
+        return isit;
+    }
 
-                int isit = 0;
-                Cursor cursor = dbHelper.readRecordOrderByAge();
-                String result = "";
-                String person_name = "";
-                String name = "";
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
+    }
 
-                while (cursor.moveToNext()) {
-                    int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry._ID));
-                    name = cursor.getString(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_NAME));
-                    //person_name = name;
-                    if (name.equals(thename)) {
-                        person_name = name;
-                        NAME = name;
-                        isit = 1;
-                    }
-                    int age = cursor.getInt(cursor.getColumnIndexOrThrow(PersonalDB.PeopleEntry.COLUMN_ID));
+    //뒤로가기 버튼 클릭 관련 코드
+    private final long finishtimeed = 1000;
+    private long presstime = 0;
 
-                    result += itemId + " " + name + " " + age + "\n";
-                }
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - presstime;
 
-                test.setText(result);
-                //personal_name.setText(person_name);
-                cursor.close();
-                return isit;
-            }
+        if (0 <= intervalTime && finishtimeed >= intervalTime) {
+            finish();
+        } else {
+            presstime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            @Override
-            protected void onDestroy() {
-                dbHelper.close();
-                super.onDestroy();
-            }
+    public void chargeChanger(int charge) {
+        String temp = Integer.toString(charge);
+        for (int i = 3; temp.length() - i > 0; i += 4) {
+            temp = new StringBuilder(temp).insert(temp.length() - i, ",").toString();
+        }
 
-            //뒤로가기 버튼 클릭 관련 코드
-            private final long finishtimeed = 1000;
-            private long presstime = 0;
+        CHARGE = temp;
 
-            @Override
-            public void onBackPressed() {
-                long tempTime = System.currentTimeMillis();
-                long intervalTime = tempTime - presstime;
+    }
 
-                if (0 <= intervalTime && finishtimeed >= intervalTime) {
-                    finish();
-                } else {
-                    presstime = tempTime;
-                    Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
-                }
-            }
+    // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
+    public void sendToDB(){
+        // 누적 비용을 만들어서 전송할 거임
 
-            public void chargeChanger(int charge) {
-                String temp = Integer.toString(charge);
-                for (int i = 3; temp.length() - i > 0; i += 4) {
-                    temp = new StringBuilder(temp).insert(temp.length() - i, ",").toString();
-                }
+        String age = p_userInfo.getAge();
+        String income = p_userInfo.getIncome_grade();
 
-                CHARGE = temp;
+        UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
+        n_userInfo.setTotal_fare(Integer.toString(calculateFare(1, 4)));
 
-            }
+        String temp = n_userInfo.getTotal_fare();
 
-            // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
-            public void sendToDB(){
-                // 누적 비용을 만들어서 전송할 거임
+        updateDB(n_userInfo);
+        Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
 
-                String age = p_userInfo.getAge();
-                String income = p_userInfo.getIncome_grade();
-
-                UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
-                n_userInfo.setTotal_fare(Integer.toString(calculateFare(1, 4)));
-
-                String temp = n_userInfo.getTotal_fare();
-
-                updateDB(n_userInfo);
-                Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
-
-            }
+    }
 
 
     // 누적요금 합치는 공식 -> 예시임
@@ -418,23 +428,94 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
     }
 
-        private void updateDB(UserInfo u_userInfo) {
-                RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
-            Call<UserInfo> call = retrofitApi.updateMember(u_userInfo.getId(), u_userInfo.getAge(), u_userInfo.getIncome_grade(), u_userInfo.getTotal_fare());
-            call.enqueue(new Callback<UserInfo>() {
-                @Override
-                public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+    private void updateDB(UserInfo u_userInfo) {
+            RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+        Call<UserInfo> call = retrofitApi.updateMember(u_userInfo.getId(), u_userInfo.getAge(), u_userInfo.getIncome_grade(), u_userInfo.getTotal_fare());
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
 
-                    Log.e("updateDB", u_userInfo.getTotal_fare());
-                }
+                Log.e("updateDB", u_userInfo.getTotal_fare());
+            }
 
-                @Override
-                public void onFailure(Call<UserInfo> call, Throwable t) {
-                    Log.e("SelectDB", "fail");
-                    t.printStackTrace();
-                }
-            });
-        }
-
-
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                Log.e("SelectDB", "fail");
+                t.printStackTrace();
+            }
+        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        enableForegroundDispatchSystem();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        disableForegroundDispatchSystem();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+
+            // nfc tag 데이터 읽는 부분
+            Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if(parcelables != null && parcelables.length > 0)
+            {
+                readTextFromMessage((NdefMessage) parcelables[0]);
+            }else{ // 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+                Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void readTextFromMessage(NdefMessage ndefMessage) {
+
+        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+
+        if(ndefRecords != null && ndefRecords.length>0){
+            NdefRecord ndefRecord = ndefRecords[0];
+            String tagContent = getTextFromNdefRecord(ndefRecord);
+            Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
+        }else
+        {
+            Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String getTextFromNdefRecord(NdefRecord ndefRecord)
+    {
+        String tagContent = null;
+        try {
+            byte[] payload = ndefRecord.getPayload();
+            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            int languageSize = payload[0] & 0063;
+            tagContent = new String(payload, languageSize + 1,
+                    payload.length - languageSize - 1, textEncoding);
+        } catch (UnsupportedEncodingException e) {
+            Log.e("getTextFromNdefRecord", e.getMessage(), e);
+        }
+        return tagContent;
+    }
+
+    private void enableForegroundDispatchSystem() {
+
+        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        IntentFilter[] intentFilters = new IntentFilter[]{};
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+    }
+
+    private void disableForegroundDispatchSystem() {
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+}
