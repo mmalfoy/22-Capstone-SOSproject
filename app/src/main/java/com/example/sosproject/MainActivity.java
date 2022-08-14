@@ -371,7 +371,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         String temp = n_userInfo.getTotal_fare();
 
         updateDB(n_userInfo);
-        Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
 
     }
 
@@ -444,6 +443,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 t.printStackTrace();
             }
         });
+        selectDB();
     }
 
     @Override
