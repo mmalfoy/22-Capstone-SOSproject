@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     NfcAdapter nfcAdapter;
     private int ride_or_quit;  // 0에서 nfc 태깅: 승차 / 1에서 nfc 태깅: 하차
     private int is_tag_mode;  // 0: nfc 태그 불가 / 1: nfc 태그 가능
-    Station station;
+    Station station = new Station();
 
     private ImageButton card;
     private RelativeLayout cardLayout;
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                         handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                 R.anim.hand_anim); //에니메이션설정파일
                         hand.startAnimation(handAnim);
-                        sendToDB(); // 하차시 DB에 데이터 전송
+                        //sendToDB(); // 하차시 DB에 데이터 전송
                     }
 
                     cardcounter = 1;
@@ -484,10 +484,9 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         if(parcelables != null && parcelables.length > 0)
         {
             rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!rideStation.equals("None"))
+            if (!rideStation.equals("None")) {
                 is_empty = false;
-            else{
-                Toast.makeText(this, "ride: " + station.getStationNum(rideStation), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ride: " + station.string2num(rideStation), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -502,10 +501,9 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         if(parcelables != null && parcelables.length > 0)
         {
             quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!quitStation.equals("None"))
+            if (!quitStation.equals("None")) {
                 is_empty = false;
-            else{
-                Toast.makeText(this, "quit: " + station.getStationNum(quitStation), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "quit: " + station.string2num(quitStation), Toast.LENGTH_SHORT).show();
             }
         }
 
