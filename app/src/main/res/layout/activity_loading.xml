@@ -15,28 +15,29 @@
         android:layout_gravity="center"
         android:textColor="@color/black"
         android:id="@+id/text1"
-
         android:fontFamily="@font/garmat"
         android:text="더 나은 교통 시스템을 위해 !" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_marginTop="45sp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/subway" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:layout_marginTop="70sp"
+        android:layout_marginTop="40sp"
         android:layout_gravity="center"
         android:textColor="@color/black"
         android:id="@+id/text2"
         android:fontFamily="@font/garmat"
-        android:text="TEAM 유임슝차 (lottie 사용?)" />
+        android:text="TEAM 유임슝차" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_marginTop="40sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/subway" />
+
+
 
 
 </LinearLayout>
