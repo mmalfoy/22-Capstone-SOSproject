@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     static String CHARGE;
     static final String DB_NAME = "personal.db";
 
+
     // Retrofit (Spring server 연결부)
     static final String p_id = "990422";
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         // server 연결 코드결
         // retrofitAPI interface 구현
+
         selectDB();
 
         setSupportActionBar(toolbar);
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //        }
 
 
+
 //        NewRunnable nr = new NewRunnable();
 //        Thread t = new Thread(nr);
 //        t.start();
@@ -194,53 +197,53 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
 
 
-        LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
-        btn_gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
+                LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
+                btn_gps.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
 
-            }
-        });
-
-
-        //setting 관련 코드
-        ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
-        btn_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein_right, R.anim.stay);
-
-            }
-        });
+                    }
+                });
 
 
-        //main NFC태그 관련 코드
-        hand = (ImageView) findViewById(R.id.hand);
-        nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
-        card = (ImageButton) findViewById(R.id.personal_Card);
+                //setting 관련 코드
+                ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
+                btn_setting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fadein_right, R.anim.stay);
 
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // personal_card를 누를 시 cardcounter가 0이면
-                if (cardcounter == 0) {
+                    }
+                });
 
-                    // nfcReader LinearLayout이 보여짐
-                    nfcReader.setVisibility(View.VISIBLE);
 
-                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.card_anim); //에니메이션설정파일
-                    card.startAnimation(cardAnim);
+                //main NFC태그 관련 코드
+                hand = (ImageView) findViewById(R.id.hand);
+                nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
+                card = (ImageButton) findViewById(R.id.personal_Card);
 
-                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.nfc_anim); //에니메이션설정파일
-                    nfcReader.startAnimation(nfcAnim);
+                card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // personal_card를 누를 시 cardcounter가 0이면
+                        if (cardcounter == 0) {
 
-                    card.setClickable(false);
-                    handcounter = 1;
+                            // nfcReader LinearLayout이 보여짐
+                            nfcReader.setVisibility(View.VISIBLE);
+
+                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.card_anim); //에니메이션설정파일
+                            card.startAnimation(cardAnim);
+
+                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.nfc_anim); //에니메이션설정파일
+                            nfcReader.startAnimation(nfcAnim);
+
+                            card.setClickable(false);
+                            handcounter = 1;
 
                     is_tag_mode = 1;  // nfc 태그시 정보 읽어오기 가능
 
@@ -249,28 +252,28 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                         handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                 R.anim.hand_anim); //에니메이션설정파일
                         hand.startAnimation(handAnim);
-                        //sendToDB(); // 하차시 DB에 데이터 전송
+                        sendToDB(); // 하차시 DB에 데이터 전송
                     }
 
-                    cardcounter = 1;
-                }
-            }
+                            cardcounter = 1;
+                        }
+                    }
 
-        });
+                });
 
-        cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
-        cardLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cardcounter == 1) {
+                cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+                cardLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (cardcounter == 1) {
 
-                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.card2_anim); //에니메이션설정파일
-                    card.startAnimation(cardAnim);
+                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.card2_anim); //에니메이션설정파일
+                            card.startAnimation(cardAnim);
 
-                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.nfc2_anim); //에니메이션설정파일
-                    nfcReader.startAnimation(nfcAnim);
+                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                    R.anim.nfc2_anim); //에니메이션설정파일
+                            nfcReader.startAnimation(nfcAnim);
 
 
                     nfcReader.setVisibility(View.INVISIBLE);
@@ -293,6 +296,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     }
 
     protected int printTabletest(String thename) {
+
 
         int isit = 0;
         Cursor cursor = dbHelper.readRecordOrderByAge();
@@ -439,6 +443,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 t.printStackTrace();
             }
         });
+        selectDB();
     }
 
     @Override

@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
     Adapter_History adapter;
 
     //DB에서 가져온 데이터 개수
-    private int SIZE = 30;
+    private int SIZE = 10;
 
     //DB에서 가져올 값
     private int DAY; //몇일에 탔는지(내부 DB로도 구현 가능)
@@ -161,7 +161,6 @@ public class HistoryActivity extends AppCompatActivity {
             String str_where = whereChanger(WHERE);
             adapter.setArrayData(str_where,2);
 
-
             SUM += PAY;
             String str_sum = chargeChanger_history(SUM) + " 원";
             adapter.setArrayData(str_sum,3);
@@ -169,7 +168,6 @@ public class HistoryActivity extends AppCompatActivity {
             TIME = 1600+i; //여기에 (몇시몇분) 값 넣어주면 됨
             String str_time = timeChanger(TIME);
             adapter.setArrayData(str_time,4);
-
 
         }
 
