@@ -60,6 +60,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //1. 회원정보 동의 한 정보 기기에 어떻게 저장..?
 public class MainActivity extends AppCompatActivity {//extends Calender{
     NfcAdapter nfcAdapter;
+    private int ride_or_quit;  // 0에서 nfc 태깅: 승차 / 1에서 nfc 태깅: 하차
+    private int is_tag_mode;  // 0: nfc 태그 불가 / 1: nfc 태그 가능
+    Station station;
 
     private ImageButton card;
     private RelativeLayout cardLayout;
@@ -83,7 +86,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     static String NAME;
     static String CHARGE;
     static final String DB_NAME = "personal.db";
-
 
     // Retrofit (Spring server 연결부)
     static final String p_id = "990422";
@@ -133,7 +135,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         // server 연결 코드결
         // retrofitAPI interface 구현
-
         selectDB();
 
         setSupportActionBar(toolbar);
@@ -169,7 +170,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //        }
 
 
-
 //        NewRunnable nr = new NewRunnable();
 //        Thread t = new Thread(nr);
 //        t.start();
@@ -194,98 +194,94 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
 
 
-                LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
-                btn_gps.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-                //setting 관련 코드
-                ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
-                btn_setting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fadein_right, R.anim.stay);
-
-                    }
-                });
-
-
-                //main NFC태그 관련 코드
-                hand = (ImageView) findViewById(R.id.hand);
-                nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
-                card = (ImageButton) findViewById(R.id.personal_Card);
-
-                card.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // personal_card를 누를 시 cardcounter가 0이면
-                        if (cardcounter == 0) {
-
-                            // nfcReader LinearLayout이 보여짐
-                            nfcReader.setVisibility(View.VISIBLE);
-
-                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.card_anim); //에니메이션설정파일
-                            card.startAnimation(cardAnim);
-
-                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.nfc_anim); //에니메이션설정파일
-                            nfcReader.startAnimation(nfcAnim);
-
-                            card.setClickable(false);
-                            handcounter = 1;
-
-                            if (handcounter == 1) {
-
-                                handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                        R.anim.hand_anim); //에니메이션설정파일
-                                hand.startAnimation(handAnim);
-                                sendToDB(); // 하차시 DB에 데이터 전송
-
-                            }
-
-
-                            cardcounter = 1;
-                        }
-                    }
-
-                });
-
-                cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
-                cardLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (cardcounter == 1) {
-
-                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.card2_anim); //에니메이션설정파일
-                            card.startAnimation(cardAnim);
-
-                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.nfc2_anim); //에니메이션설정파일
-                            nfcReader.startAnimation(nfcAnim);
-
-
-                            nfcReader.setVisibility(View.INVISIBLE);
-                            card.setClickable(true);
-                            cardcounter = 0;
-                            handcounter = 0;
-                        }
-                    }
-
-                });
-
+        LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
+        btn_gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
 
             }
+        });
 
 
+        //setting 관련 코드
+        ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fadein_right, R.anim.stay);
+
+            }
+        });
+
+
+        //main NFC태그 관련 코드
+        hand = (ImageView) findViewById(R.id.hand);
+        nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
+        card = (ImageButton) findViewById(R.id.personal_Card);
+
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // personal_card를 누를 시 cardcounter가 0이면
+                if (cardcounter == 0) {
+
+                    // nfcReader LinearLayout이 보여짐
+                    nfcReader.setVisibility(View.VISIBLE);
+
+                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.card_anim); //에니메이션설정파일
+                    card.startAnimation(cardAnim);
+
+                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.nfc_anim); //에니메이션설정파일
+                    nfcReader.startAnimation(nfcAnim);
+
+                    card.setClickable(false);
+                    handcounter = 1;
+
+                    is_tag_mode = 1;  // nfc 태그시 정보 읽어오기 가능
+
+                    if (handcounter == 1) {
+
+                        handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                                R.anim.hand_anim); //에니메이션설정파일
+                        hand.startAnimation(handAnim);
+                        sendToDB(); // 하차시 DB에 데이터 전송
+                    }
+
+                    cardcounter = 1;
+                }
+            }
+
+        });
+
+        cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+        cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cardcounter == 1) {
+
+                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.card2_anim); //에니메이션설정파일
+                    card.startAnimation(cardAnim);
+
+                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.nfc2_anim); //에니메이션설정파일
+                    nfcReader.startAnimation(nfcAnim);
+
+
+                    nfcReader.setVisibility(View.INVISIBLE);
+                    card.setClickable(true);
+                    cardcounter = 0;
+                    handcounter = 0;
+                    is_tag_mode = 0; //nfc 태그 태깅해도 읽어오기 불가능
+                }
+            }
+        });
+    }
 
     //DB 테스트
     private void dbDataDelete(String target) {
@@ -297,7 +293,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     }
 
     protected int printTabletest(String thename) {
-
 
         int isit = 0;
         Cursor cursor = dbHelper.readRecordOrderByAge();
@@ -465,30 +460,70 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
-
-            // nfc tag 데이터 읽는 부분
-            Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            if(parcelables != null && parcelables.length > 0)
-            {
-                readTextFromMessage((NdefMessage) parcelables[0]);
-            }else{ // 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-                Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+            if (is_tag_mode == 1) {
+                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                // nfc tag 데이터 읽는 부분
+                if (ride_or_quit == 0){
+                    ride(parcelables);
+                    ride_or_quit = 1;
+                }
+                else {
+                    quit(parcelables);
+                    ride_or_quit = 0;
+                }
+            }
+            else {
+                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void readTextFromMessage(NdefMessage ndefMessage) {
+    private void ride(Parcelable[] parcelables){
+        String rideStation;
+        boolean is_empty = true;
+        if(parcelables != null && parcelables.length > 0)
+        {
+            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
+            if (!rideStation.equals("None"))
+                is_empty = false;
+            else{
+                Toast.makeText(this, "ride: " + station.getStationNum(rideStation), Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void quit(Parcelable[] parcelables){
+        String quitStation;
+        boolean is_empty = true;
+        if(parcelables != null && parcelables.length > 0)
+        {
+            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
+            if (!quitStation.equals("None"))
+                is_empty = false;
+            else{
+                Toast.makeText(this, "quit: " + station.getStationNum(quitStation), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String readTextFromMessage(NdefMessage ndefMessage) {
         NdefRecord[] ndefRecords = ndefMessage.getRecords();
 
         if(ndefRecords != null && ndefRecords.length>0){
             NdefRecord ndefRecord = ndefRecords[0];
-            String tagContent = getTextFromNdefRecord(ndefRecord);
-            Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
+            return getTextFromNdefRecord(ndefRecord);
+            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
         }else
         {
-            Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
+            return "None";
         }
     }
 
