@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
     Adapter_History adapter;
 
     //DB에서 가져온 데이터 개수
-    private int SIZE = 30;
+    private int SIZE = 10;
 
     //DB에서 가져올 값
     private int DAY; //몇일에 탔는지(내부 DB로도 구현 가능)
