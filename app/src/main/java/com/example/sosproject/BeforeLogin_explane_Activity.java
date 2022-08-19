@@ -40,7 +40,7 @@ public class BeforeLogin_explane_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(BeforeLogin_explane_Activity.this, BeforeLoginActivity.class);
+                Intent intent = new Intent(BeforeLogin_explane_Activity.this, KakaoLogin1Activity.class);
                 startActivity(intent);
                 finish();
 
