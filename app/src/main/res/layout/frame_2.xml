@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="12"
+    android:background="@drawable/sbuway2">
+
+    <TextView
+        android:text="지하철 이용 내역을 \n한 눈에!\n\n\n\n\n\n"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="11"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:background="#80000000"
+        android:fontFamily="@font/garmat"
+        android:textColor="@color/white"
+
+        />
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0sp"
+        android:layout_weight="1"/>
+
+</LinearLayout>

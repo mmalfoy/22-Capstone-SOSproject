@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sosproject">
+
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".KakaoLoginApplicaiton"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SosProject"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".KakaoLogin2Activity"
+            android:exported="true" />
+        <activity
+            android:name=".KakaoLogin1Activity"
+            android:exported="true" />
+        <activity
+            android:name=".CardMenuActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Agree_2"
+            android:exported="true" />
+        <activity
+            android:name=".Agree_1"
+            android:exported="true" />
+        <activity
+            android:name=".BeforeLogin_explane_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".AppinfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".BeforeLoginActivity"
+            android:exported="true" /> <!-- android:theme="@style/FullScreenTheme" -->
+        <activity
+            android:name=".LoadingActivity"
+            android:exported="true" /> <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> <!- <activity -->
+        <!-- android:name=".LoadingAnimationActivity" -->
+        <!-- android:exported="true" /> -->
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_filter" />
+        </activity>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="aa39351bb6aafa293e3ab9aff2930f06" />
+    </application>
+
+</manifest>

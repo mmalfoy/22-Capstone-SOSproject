@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    ...
+    <!-- Customize your theme here. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@layout/activity_loading</item>
+    </style>
+    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+<!--        <item name="android:textColor">#00FF00</item>-->
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
+
+    <style name="ToolbarColoredBackArrow" parent="Theme.AppCompat.Light.NoActionBar" >
+
+        <item name="android:textColorSecondary">#FFF</item>
+    </style>
+</resources>
