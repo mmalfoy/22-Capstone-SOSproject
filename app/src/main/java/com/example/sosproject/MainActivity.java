@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     // Retrofit (Spring server 연결부)
-    static final String p_id = "990422";
+    static final String p_id = "990321";
 
     UserInfo p_userInfo;
 
@@ -445,115 +445,115 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
         selectDB();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        enableForegroundDispatchSystem();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        disableForegroundDispatchSystem();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            if (is_tag_mode == 1) {
-                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-                // nfc tag 데이터 읽는 부분
-                if (ride_or_quit == 0){
-                    ride(parcelables);
-                    ride_or_quit = 1;
-                }
-                else {
-                    quit(parcelables);
-                    ride_or_quit = 0;
-                }
-            }
-            else {
-                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void ride(Parcelable[] parcelables){
-        String rideStation;
-        boolean is_empty = true;
-        if(parcelables != null && parcelables.length > 0)
-        {
-            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!rideStation.equals("None")) {
-                is_empty = false;
-                Toast.makeText(this, "ride: " + station.string2num(rideStation), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void quit(Parcelable[] parcelables){
-        String quitStation;
-        boolean is_empty = true;
-        if(parcelables != null && parcelables.length > 0)
-        {
-            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!quitStation.equals("None")) {
-                is_empty = false;
-                Toast.makeText(this, "quit: " + station.string2num(quitStation), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private String readTextFromMessage(NdefMessage ndefMessage) {
-        NdefRecord[] ndefRecords = ndefMessage.getRecords();
-
-        if(ndefRecords != null && ndefRecords.length>0){
-            NdefRecord ndefRecord = ndefRecords[0];
-            return getTextFromNdefRecord(ndefRecord);
-            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
-        }else
-        {
-            return "None";
-        }
-    }
-
-    public String getTextFromNdefRecord(NdefRecord ndefRecord)
-    {
-        String tagContent = null;
-        try {
-            byte[] payload = ndefRecord.getPayload();
-            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-            int languageSize = payload[0] & 0063;
-            tagContent = new String(payload, languageSize + 1,
-                    payload.length - languageSize - 1, textEncoding);
-        } catch (UnsupportedEncodingException e) {
-            Log.e("getTextFromNdefRecord", e.getMessage(), e);
-        }
-        return tagContent;
-    }
-
-    private void enableForegroundDispatchSystem() {
-
-        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        IntentFilter[] intentFilters = new IntentFilter[]{};
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
-    }
-
-    private void disableForegroundDispatchSystem() {
-        nfcAdapter.disableForegroundDispatch(this);
-    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        enableForegroundDispatchSystem();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        disableForegroundDispatchSystem();
+//    }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+//            if (is_tag_mode == 1) {
+//                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+//                // nfc tag 데이터 읽는 부분
+//                if (ride_or_quit == 0){
+//                    ride(parcelables);
+//                    ride_or_quit = 1;
+//                }
+//                else {
+//                    quit(parcelables);
+//                    ride_or_quit = 0;
+//                }
+//            }
+//            else {
+//                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    private void ride(Parcelable[] parcelables){
+//        String rideStation;
+//        boolean is_empty = true;
+//        if(parcelables != null && parcelables.length > 0)
+//        {
+//            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
+//            if (!rideStation.equals("None")) {
+//                is_empty = false;
+//                Toast.makeText(this, "ride: " + station.string2num(rideStation), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private void quit(Parcelable[] parcelables){
+//        String quitStation;
+//        boolean is_empty = true;
+//        if(parcelables != null && parcelables.length > 0)
+//        {
+//            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
+//            if (!quitStation.equals("None")) {
+//                is_empty = false;
+//                Toast.makeText(this, "quit: " + station.string2num(quitStation), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private String readTextFromMessage(NdefMessage ndefMessage) {
+//        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+//
+//        if(ndefRecords != null && ndefRecords.length>0){
+//            NdefRecord ndefRecord = ndefRecords[0];
+//            return getTextFromNdefRecord(ndefRecord);
+//            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
+//        }else
+//        {
+//            return "None";
+//        }
+//    }
+//
+//    public String getTextFromNdefRecord(NdefRecord ndefRecord)
+//    {
+//        String tagContent = null;
+//        try {
+//            byte[] payload = ndefRecord.getPayload();
+//            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+//            int languageSize = payload[0] & 0063;
+//            tagContent = new String(payload, languageSize + 1,
+//                    payload.length - languageSize - 1, textEncoding);
+//        } catch (UnsupportedEncodingException e) {
+//            Log.e("getTextFromNdefRecord", e.getMessage(), e);
+//        }
+//        return tagContent;
+//    }
+//
+//    private void enableForegroundDispatchSystem() {
+//
+//        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//        IntentFilter[] intentFilters = new IntentFilter[]{};
+//        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+//    }
+//
+//    private void disableForegroundDispatchSystem() {
+//        nfcAdapter.disableForegroundDispatch(this);
+//    }
 }
