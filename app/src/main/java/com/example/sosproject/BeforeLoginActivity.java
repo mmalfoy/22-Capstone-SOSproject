@@ -38,7 +38,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 public class BeforeLoginActivity extends AppCompatActivity {
-
     int a = 0,b = 0,c = 0;
 
     @Override
@@ -50,7 +49,6 @@ public class BeforeLoginActivity extends AppCompatActivity {
         ImageButton btn_firstcheck = (ImageButton) findViewById(R.id.first_check);
         ImageButton btn_secondcheck = (ImageButton) findViewById(R.id.second_check);
         ImageButton btn_thirdcheck = (ImageButton) findViewById(R.id.third_check);
-
 
         btn_rulePage.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -107,7 +105,6 @@ public class BeforeLoginActivity extends AppCompatActivity {
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
                         a = 1;
                     }
-
                 }else{
                     btn_secondcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
                     b = 0;
@@ -118,7 +115,6 @@ public class BeforeLoginActivity extends AppCompatActivity {
                         btn_rulePage.setClickable(false);
                     }
                 }
-
             }
         });
 
@@ -135,7 +131,7 @@ public class BeforeLoginActivity extends AppCompatActivity {
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
                         a = 1;
                     }
-                }else{
+                }else {
                     btn_thirdcheck.setImageResource(R.drawable.ic_baseline_beforecheck_24);
                     c = 0;
                     if(a == 1){
@@ -155,8 +151,6 @@ public class BeforeLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BeforeLoginActivity.this,Agree_1.class);
                 startActivity(intent);
-
-
             }
         });
 
@@ -167,17 +161,9 @@ public class BeforeLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BeforeLoginActivity.this,Agree_2.class);
                 startActivity(intent);
-
-
             }
         });
-
-
-
-
-
     }
-
 
     private void end_program(){
         try {
@@ -190,6 +176,4 @@ public class BeforeLoginActivity extends AppCompatActivity {
         finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
         android.os.Process.killProcess(android.os.Process.myPid()); // 앱 프로세스 종료
     }
-
-
 }

@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B4E5FF"
-    android:weightSum="2.618"
-    >
+    android:weightSum="2.618">
+
     <LinearLayout
-        android:layout_weight="1.618"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:orientation="vertical"
-        >
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200sp"
             android:layout_marginLeft="30sp"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:layout_marginTop="200sp"
             android:background="#B4E5FF"
-            android:textColor="@color/white"
-
+            android:gravity="center"
             android:text="정보 수집 약관에\n동의해 주세요."
-            />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="20sp"/>
-
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-
-
 
     <LinearLayout
         android:layout_weight="1"
@@ -55,8 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_check_circle_outline_24"
-                />
+                android:background="@drawable/ic_baseline_check_circle_outline_24" />
 
             <Space
                 android:layout_width="20sp"
@@ -70,8 +57,9 @@
                 android:textSize="15sp"
                 android:text="개인정보 약관 동의"/>
 
-
-
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,8 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_beforecheck_24"
-                />
+                android:background="@drawable/ic_baseline_beforecheck_24" />
 
             <Space
                 android:layout_width="20sp"
@@ -117,11 +104,7 @@
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
-
-
         </LinearLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,8 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_beforecheck_24"
-                />
+                android:background="@drawable/ic_baseline_beforecheck_24" />
 
             <Space
                 android:layout_width="20sp"
@@ -160,8 +142,6 @@
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -172,8 +152,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <Button
                 android:layout_width="300sp"
@@ -183,8 +162,7 @@
                 android:clickable="false"
                 android:backgroundTint="#E5E5E5"
                 android:visibility="visible"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/rule_page_btn"
@@ -195,16 +173,9 @@
                 android:clickable="false"
                 android:backgroundTint="#B4E5FF"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </FrameLayout>
-
-
-
     </LinearLayout>
-
-
-
 
 </LinearLayout>
