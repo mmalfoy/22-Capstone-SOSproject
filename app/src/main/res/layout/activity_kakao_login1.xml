@@ -6,19 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".KakaoLogin1Activity"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:text="로그인 1"/>
 
-    <Button
-        android:id="@+id/example1"
-        android:layout_width="wrap_content"
+    <com.kakao.usermgmt.LoginButton
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="다음꺼"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="34dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

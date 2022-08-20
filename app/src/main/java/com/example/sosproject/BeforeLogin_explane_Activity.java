@@ -24,7 +24,6 @@ public class BeforeLogin_explane_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_login_explane);
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -33,25 +32,18 @@ public class BeforeLogin_explane_Activity extends AppCompatActivity {
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
 
-
         //시작하기 버튼 관련 코드
         Button btn_start = (Button) findViewById(R.id.btnStart);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(BeforeLogin_explane_Activity.this, KakaoLogin1Activity.class);
+                Intent intent = new Intent(BeforeLogin_explane_Activity.this, BeforeLoginActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
-
-
-
-
-
     }
+
     public void setupViewPager(ViewPager viewPager) {
         adapter.addFragment(new Fragment_1(), "1");
         adapter.addFragment(new Fragment_2(), "2");
@@ -78,5 +70,4 @@ public class BeforeLogin_explane_Activity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
