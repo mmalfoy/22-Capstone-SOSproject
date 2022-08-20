@@ -211,7 +211,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(MainActivity.this, SQLiteTestActivity.class);
+                        startActivity(intent);
                     }
                 });
 
