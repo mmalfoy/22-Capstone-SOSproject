@@ -72,7 +72,7 @@ public class KakaoLogin1Activity extends AppCompatActivity {
 
         Session.getCurrentSession().addCallback(mSessionCallback);
         Session.getCurrentSession().checkAndImplicitOpen(); //세션 유지
-        // getAppKeyHash();
+        getAppKeyHash();
     }
 
     // 카카오 로그인 시 필요한 해시키를 얻는 메소드이다.
