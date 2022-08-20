@@ -20,6 +20,9 @@
         android:theme="@style/Theme.SosProject"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MyinfoMenuActivity"
+            android:exported="true" />
+        <activity
             android:name=".KakaoLogin2Activity"
             android:exported="true" />
         <activity

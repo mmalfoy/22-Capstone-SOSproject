@@ -196,8 +196,17 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             }
         });
 
+        LinearLayout btn_myinfo = (LinearLayout)findViewById(R.id.btn_myinfo);
+        btn_myinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyinfoMenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
+
+        LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
                 btn_gps.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
