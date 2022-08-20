@@ -4,14 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".KakaoLogin1Activity"
+    tools:context=".BeforeLoginActivity"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:text=" 회원정보 추가 입력"
+        android:textSize="24dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:background="#B4E5FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_third"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/deepblue_radius"
+        android:gravity="center"
+        android:text="03"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <TextView
         android:id="@+id/tv_nickName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -23,7 +54,7 @@
         android:id="@+id/iv_profile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,10 +63,10 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="411dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:text="소득 분위 확인을 위해 주민등록번호를 입력해주세요."
-        android:textSize="18sp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:text=" 소득 분위 확인을 위해 추가 정보를 입력해주세요.\n 정확한 정보를 입력하지 않을 시 앱 이용에 문제가 될 수 있습니다."
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,23 +77,47 @@
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        android:hint="주민번호 입력 (13자리, - 제외)"
+        android:hint="생년월일 입력 (6자리)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:hint="전화번호 입력 ( ex : 01012345678)"
+        app:layout_constraintEnd_toEndOf="@+id/et_number"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/et_number"
+        app:layout_constraintTop_toBottomOf="@+id/et_number" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="앱 시작하기"
-        android:textColor="#696969"
+        android:layout_marginTop="16dp"
+        android:text=" ▷ 추가정보를 올바르게 입력했을 시, 앱을 시작할 수 있습니다.\n 입력한 정보가 맞는지 확인한 뒤 앱을 시작해주세요."
+        android:textSize="15dp"
         android:textStyle="bold"
-        app:backgroundTint="#B4E5FF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_number" />
+        app:layout_constraintTop_toBottomOf="@+id/et_phone" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="앱 시작하기"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:backgroundTint="#E5E5E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btn_logout"
@@ -75,6 +130,7 @@
         android:textStyle="bold"
         app:backgroundTint="#B4E5FF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_start" />
 

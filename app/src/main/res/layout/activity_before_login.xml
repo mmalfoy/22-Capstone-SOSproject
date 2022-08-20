@@ -1,43 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B4E5FF"
-    android:weightSum="2.618"
-    >
+    android:weightSum="2.35">
+
     <LinearLayout
-        android:layout_weight="1.618"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:orientation="vertical"
-        >
+        android:layout_height="0dp"
+        android:layout_weight="1.3"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="200sp"
-            android:layout_marginLeft="30sp"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="50sp"
             android:background="#B4E5FF"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="서비스 이용 약관 동의"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-            android:text="정보 수집 약관에\n동의해 주세요."
-            />
+        <LinearLayout
+            android:layout_width="400dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:background="#000000" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="20sp"/>
+        <TextView
+            android:layout_width="384dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
+            android:text="▷ SOS앱은 소득분위를 활용한 대중교통 이용서비스입니다."
+            android:textColor="#000000"
+            android:textSize="15dp" />
 
+        <TextView
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
+            android:text="▷ 개인정보가 필요한 콘텐츠로서 아래의 약관 동의가\n     필요합니다."
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_first"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="60sp"
+            android:layout_marginTop="20sp"
+            android:background="@drawable/deepblue_radius"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_second"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="180sp"
+            android:layout_marginTop="-50dp"
+            android:background="@drawable/lightgray_radius"
+            android:gravity="center"
+            android:text="02"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_third"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="300sp"
+            android:layout_marginTop="-50dp"
+            android:background="@drawable/lightgray_radius"
+            android:gravity="center"
+            android:text="03"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="약관 동의"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="-30dp"
+            android:gravity="center"
+            android:text="카카오 로그인"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="275dp"
+            android:layout_marginTop="-30dp"
+            android:gravity="center"
+            android:text="회원정보입력"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-
-
-
     <LinearLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -55,23 +134,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_check_circle_outline_24"
-                />
+                android:background="@drawable/ic_baseline_check_circle_outline_24" />
 
             <Space
                 android:layout_width="20sp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
                 android:layout_marginTop="20sp"
-                android:textSize="15sp"
-                android:text="개인정보 약관 동의"/>
+                android:text="개인정보 약관 동의"
+                android:textSize="15sp" />
 
-
-
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,8 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_beforecheck_24"
-                />
+                android:background="@drawable/ic_baseline_beforecheck_24" />
 
             <Space
                 android:layout_width="20sp"
@@ -117,11 +195,7 @@
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
-
-
         </LinearLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,8 +207,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="20sp"
-                android:background="@drawable/ic_baseline_beforecheck_24"
-                />
+                android:background="@drawable/ic_baseline_beforecheck_24" />
 
             <Space
                 android:layout_width="20sp"
@@ -160,8 +233,6 @@
                 android:background="@drawable/ic_baseline_chevron_right_24"
                 android:backgroundTint="#C0C0C0"/>
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -172,39 +243,50 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <Button
-                android:layout_width="300sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="확인"
                 android:textStyle="bold"
                 android:clickable="false"
                 android:backgroundTint="#E5E5E5"
                 android:visibility="visible"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/rule_page_btn"
-                android:layout_width="300sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="확인"
+                android:text="모두 동의 완료되었습니다. 아래 로그인 버튼을 눌러주세요."
                 android:textStyle="bold"
+                android:textColor="#000000"
                 android:clickable="false"
                 android:backgroundTint="#B4E5FF"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </FrameLayout>
 
 
-
     </LinearLayout>
+    <Button
+        android:id="@+id/kakao_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#E5E5E5"
+        android:clickable="false"
+        android:text="카카오톡으로 로그인 시작하기(동의 후 가능)"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
-
-
-
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/btn_realLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-70dp"></com.kakao.usermgmt.LoginButton>
 </LinearLayout>
+

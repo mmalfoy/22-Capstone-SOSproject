@@ -9,6 +9,7 @@ import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
+//import com.kakao.sdk.common.KakaoSdk;
 
 public class KakaoLoginApplicaiton extends Application {
     private static volatile KakaoLoginApplicaiton instance = null;
@@ -78,8 +79,7 @@ public class KakaoLoginApplicaiton extends Application {
         super.onCreate();
         instance = this;
         KakaoSDK.init(new KakaoSDKAdapter());
-//        instance = this;
-//        KakaoSDK.init(new KakaoSDKAdapter());
+        // KakaoSdk.init(this, "aa39351bb6aafa293e3ab9aff2930f06");
     }
 
     @Override
