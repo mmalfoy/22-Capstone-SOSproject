@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 //미 구현 : 최신, 과거순 뷰 정렬
 //         조회 기간에 따른 데이터 확인
 //         상세 조회시 버튼 클릭 처리
@@ -33,6 +35,9 @@ public class HistoryActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Adapter_History adapter;
 
+    DBHelper mDBHelper;
+    ArrayList<BoardingInfo> arrayList;
+
     //DB에서 가져온 데이터 개수
     private int SIZE = 10;
 
@@ -50,7 +55,8 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
+        mDBHelper = new DBHelper(this);
+        arrayList = mDBHelper.getBoardingList();
         //뒤로가기
         ImageView back_card_menu = (ImageView)findViewById(R.id.back_history);
         back_card_menu.setOnClickListener(new View.OnClickListener() {
@@ -148,12 +154,12 @@ public class HistoryActivity extends AppCompatActivity {
 
         //예시, setArrayData로 각각의 값을 넣어주면, 마련된 ArrayList로 값이 저장됨
 
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < mDBHelper.cnt; i++) {
 
-            String str_day = dayChanger(220800+i);//여기에 값으로 몇일이였나 넣어주면 됨(수정)
+            String str_day = dayChanger(arrayList.get(i).getDate());//여기에 값으로 몇일이였나 넣어주면 됨(수정)
             adapter.setArrayData(str_day,0);
 
-            PAY = 1000+i; // 여기에 각각 얼마였는지 값으로 넣어주면 됨(수정)
+            PAY = arrayList.get(i).getFare(); // 여기에 각각 얼마였는지 값으로 넣어주면 됨(수정)
             String str_pay = chargeChanger_history(PAY) + " 원";
             adapter.setArrayData(str_pay,1);
 
@@ -161,11 +167,11 @@ public class HistoryActivity extends AppCompatActivity {
             String str_where = whereChanger(WHERE);
             adapter.setArrayData(str_where,2);
 
-            SUM += PAY;
-            String str_sum = chargeChanger_history(SUM) + " 원";
+            // SUM += PAY;
+            String str_sum = chargeChanger_history(arrayList.get(i).getTotal_fare()) + " 원";
             adapter.setArrayData(str_sum,3);
 
-            TIME = 1600+i; //여기에 (몇시몇분) 값 넣어주면 됨
+            TIME = arrayList.get(i).getTime(); //여기에 (몇시몇분) 값 넣어주면 됨
             String str_time = timeChanger(TIME);
             adapter.setArrayData(str_time,4);
 

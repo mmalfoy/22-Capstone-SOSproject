@@ -98,12 +98,25 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     DBHelper mDBHelper;
     ArrayList<BoardingInfo> arrayList;
 
+
+    long mNow;
+    Date mDate;
+    SimpleDateFormat mFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat.format(mDate);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        mDBHelper = new DBHelper(this);
         //로딩화면 관련 코드
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
@@ -247,8 +260,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                         handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                 R.anim.hand_anim); //에니메이션설정파일
                         hand.startAnimation(handAnim);
-                        sendToDB(); // 하차시 DB에 데이터 전송
-                        mDBHelper.InsertBoarding();
+                        sendToDB(1, 4); // 하차시 DB에 데이터 전송 (출발역, 도착역)
                     }
 
                             cardcounter = 1;
@@ -354,19 +366,28 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     }
 
     // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
-    public void sendToDB(){
+    public void sendToDB(int start, int end){
         // 누적 비용을 만들어서 전송할 거임
 
         String age = p_userInfo.getAge();
         String income = p_userInfo.getIncome_grade();
 
+
         UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
-        n_userInfo.setTotal_fare(Integer.toString(calculateFare(1, 4)));
+        String fare = Integer.toString(calculateFare(start, end));
+        n_userInfo.setTotal_fare(fare);
 
-        String temp = n_userInfo.getTotal_fare();
+        int total = Integer.parseInt(n_userInfo.getTotal_fare());
 
+        String time = getTime();
+        String time2 = time.substring(0,8); //날짜
+        time = time.substring(8);    //시각
+
+        int TODAY = Integer.parseInt(time2);
+        int TIME  = Integer.parseInt(time);
+
+        mDBHelper.InsertBoarding(TODAY, TIME, start, end, Integer.parseInt(fare), total);
         updateDB(n_userInfo);
-        Log.e("send to DB",NAME+", "+age+", "+income+", "+temp);
 
     }
 
