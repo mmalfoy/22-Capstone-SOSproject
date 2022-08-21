@@ -14,12 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class SQLiteTestActivity extends AppCompatActivity {
+
+    DBHelper mDBHelper;
+    ArrayList<BoardingInfo> arrayList;
     boolean isDown = false;
 
     //sqlLite 들어갈 데이터
@@ -56,16 +60,22 @@ public class SQLiteTestActivity extends AppCompatActivity {
         return mFormat.format(mDate);
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        mDBHelper = new DBHelper(this);
+        mDBHelper.dbInitialize();
+        mDBHelper.InsertBoarding(220821,1245,401,301,1250,2500);
+        arrayList = mDBHelper.getBoardingList();
+
         setContentView(R.layout.activity_sqlite_test);
 
         TextView day_test = (TextView)findViewById(R.id.history_day_text);
         TextView time_test = (TextView)findViewById(R.id.history_time_text);
         Button btn_test = (Button) findViewById(R.id.history_test_button);
+        day_test.setText(Integer.toString(arrayList.get(0).getTime()));
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

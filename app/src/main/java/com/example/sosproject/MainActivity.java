@@ -45,6 +45,7 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -83,15 +84,19 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     protected PeopleDBHelper dbHelper;
     private TextView test;
     TextView personal_name;
-    static String NAME;
+    static String NAME = KakaoLogin2Activity.strNick;
     static String CHARGE;
     static final String DB_NAME = "personal.db";
 
 
     // Retrofit (Spring server 연결부)
+    // 생년월일은 중복되네..
+    // 주민등록번호 리턴 가능?? -> HASH 값으로 변환해야 됨..
     static final String p_id = "990321";
+    static UserInfo p_userInfo;
 
-    UserInfo p_userInfo;
+    DBHelper mDBHelper;
+    ArrayList<BoardingInfo> arrayList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,27 +160,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         // Retrofit 통신이 비동기적으로 발생해서 Retrofit callback 함수 내에서 NAME이랑 CHARGE를 할당하는 작업이
         // NewRunnable 쓰레드가 돌아간 이후에 실행되는 것 같아서
         // personal_name, personal_charge에 값을 할당하는 부분을 Retrofit callback 함수 내에 넣었습니다
-//        class NewRunnable implements Runnable{
-//            int n = 1;
-//            TextView personal_name = (TextView)findViewById(R.id.personal_name);
-//            TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
-//
-//            @Override
-//            public void run(){
-//                while(n>0){
-//                    String name = NAME;
-//                    personal_name.setText(NAME);
-//                    personal_charge.setText(CHARGE);
-//                    n--;
-//                }
-//            }
-//        }
-
-
-
-//        NewRunnable nr = new NewRunnable();
-//        Thread t = new Thread(nr);
-//        t.start();
 
         LinearLayout btn_cardMenu = (LinearLayout)findViewById(R.id.btn_cardMenu);
         btn_cardMenu.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +192,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
                 btn_gps.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
@@ -263,6 +248,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                                 R.anim.hand_anim); //에니메이션설정파일
                         hand.startAnimation(handAnim);
                         sendToDB(); // 하차시 DB에 데이터 전송
+                        mDBHelper.InsertBoarding();
                     }
 
                             cardcounter = 1;
@@ -414,7 +400,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                     // p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
                     p_userInfo = s_userInfo;
                     // NAME에 p_userInfo.getId() 할당
-                    String name = s_userInfo.getId();
+                    String name = KakaoLogin2Activity.strNick;
                     // CHARGE에 p_userInfo.getTotal_fare() 할당
                     chargeChanger(Integer.parseInt(s_userInfo.getTotal_fare())); // -> 10,000과 같이 세 자리 ,로 끊는 함수
 

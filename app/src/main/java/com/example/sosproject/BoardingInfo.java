@@ -2,14 +2,14 @@ package com.example.sosproject;
 
 public class BoardingInfo {
     private int id;
-    private String date;
-    private String time;
+    private int date;
+    private int time;
     private int start_s;
     private int end_s;
     private int fare;
     private int total_fare;
 
-    public BoardingInfo(int id, String date, String time, int start_s, int end_s, int fare, int total_fare) {
+    public BoardingInfo(int id, int date, int time, int start_s, int end_s, int fare, int total_fare) {
         this.id = id;
         this.date = date;
         this.time = time;
@@ -27,19 +27,19 @@ public class BoardingInfo {
         this.id = id;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

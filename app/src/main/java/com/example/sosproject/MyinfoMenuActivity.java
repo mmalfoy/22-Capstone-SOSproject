@@ -23,11 +23,21 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         TextView info_income = (TextView) findViewById(R.id.info_income); //소득분위
         TextView info_extracharge = (TextView) findViewById(R.id.info_extracharge); //추가 비용
 
+        // setText 로 할당하기
+        info_name.setText(MainActivity.NAME);
+        info_number.setText(KakaoLogin2Activity.PhoneNumber);
+        info_brith.setText(KakaoLogin2Activity.IdentificationNumber);
+        info_mycharge.setText(MainActivity.CHARGE);
+        info_income.setText(MainActivity.p_userInfo.getIncome_grade());
+        info_extracharge.setText("추가비용");
+
         //뒤로가기
         ImageView back_myinfo_menu = (ImageView)findViewById(R.id.back_myinfo_menu);
         back_myinfo_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 finish();
             }

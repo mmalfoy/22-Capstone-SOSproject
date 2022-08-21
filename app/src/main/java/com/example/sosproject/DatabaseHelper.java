@@ -26,7 +26,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_WHERE = "station_num";     //역 위치
 
 
-
     public DatabaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
@@ -44,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_WHERE+" TEXT);";
 
         db.execSQL(SQL_CREATE_TABLE);
+
     }
 
     @Override
