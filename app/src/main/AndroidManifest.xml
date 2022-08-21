@@ -20,6 +20,9 @@
         android:theme="@style/Theme.SosProject"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".noNfcWarning"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
             android:name=".SQLiteTestActivity"
             android:exported="true" />
         <activity

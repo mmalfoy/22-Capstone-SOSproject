@@ -229,7 +229,7 @@ public class BeforeLoginActivity extends AppCompatActivity {
 
         Session.getCurrentSession().addCallback(mSessionCallback);
         //Session.getCurrentSession().checkAndImplicitOpen(); //세션 유지
-        // getAppKeyHash();
+        //getAppKeyHash();
     }
 
     private void end_program(){
