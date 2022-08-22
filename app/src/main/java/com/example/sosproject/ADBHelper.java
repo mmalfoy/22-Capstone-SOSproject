@@ -60,7 +60,7 @@ public class ADBHelper extends SQLiteOpenHelper {
 
         public void updateAccountInfo(String _name, String _phone, String _birth, int _login){
             SQLiteDatabase db = getWritableDatabase();
-            db.execSQL("UPDATE accountInfoList SET name ='" + _name + "', phone='" + _phone + "', birth= '" + _birth + "', login='" + _login);
+            db.execSQL("UPDATE accountInfoList SET phone='" + _phone + "', birth= '" + _birth + "', login='" + _login + "' WHERE name=" + _name);
         }
 
 }
