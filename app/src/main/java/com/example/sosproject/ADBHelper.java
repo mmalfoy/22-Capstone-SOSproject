@@ -11,13 +11,11 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class ADBHelper extends SQLiteOpenHelper {
-    private int DB_VERSION;
-    private String DB_NAME;
+    private static int DB_VERSION = 1;
+    private static final String DB_NAME = "account_db";
     public static int cnt;
-    public ADBHelper(@Nullable Context context, String db_name, int db_version) {
-        super(context, db_name, null, db_version);
-        this.DB_VERSION = db_version;
-        this.DB_NAME = db_name;
+    public ADBHelper(@Nullable Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
 
