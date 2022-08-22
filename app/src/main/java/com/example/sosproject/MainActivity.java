@@ -10,7 +10,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Context;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.app.Activity;
@@ -47,9 +49,15 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -67,7 +75,10 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     NfcAdapter nfcAdapter;
     private int ride_or_quit;  // 0에서 nfc 태깅: 승차 / 1에서 nfc 태깅: 하차
     private int is_tag_mode;  // 0: nfc 태그 불가 / 1: nfc 태그 가능
+
     Station station = new Station();
+    String rideStation;
+    String quitStation;
 
     private ImageButton card;
     private RelativeLayout cardLayout;
@@ -108,7 +119,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     SimpleDateFormat mFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 
 
-    private String getTime(){
+    private String getTime() {
         mNow = System.currentTimeMillis();
         mDate = new Date(mNow);
         return mFormat.format(mDate);
@@ -148,12 +159,12 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         test = findViewById(R.id.txt_json);
         personal_name = findViewById(R.id.personal_name);
 
-        dbHelper = new PeopleDBHelper(this,DB_NAME,1);
+        dbHelper = new PeopleDBHelper(this, DB_NAME, 1);
 
         //dbHelper.insertRecord("손현석", 1998);
 
         int isit = printTabletest("하이");
-        Log.d("TAG","isit : "+isit);
+        Log.d("TAG", "isit : " + isit);
 
 //        //앱 처음 실행시 코드
 //        if(isit != 1) {
@@ -162,11 +173,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //            startActivity(intent);
 //        }
 
-        main_activity = (LinearLayout)findViewById(R.id.main_activity);
+        main_activity = (LinearLayout) findViewById(R.id.main_activity);
         main_activity.setVisibility(View.VISIBLE);
 
         //menu 관련 코드
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
 
@@ -192,17 +203,17 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         // NewRunnable 쓰레드가 돌아간 이후에 실행되는 것 같아서
         // personal_name, personal_charge에 값을 할당하는 부분을 Retrofit callback 함수 내에 넣었습니다
 
-        LinearLayout btn_cardMenu = (LinearLayout)findViewById(R.id.btn_cardMenu);
+        LinearLayout btn_cardMenu = (LinearLayout) findViewById(R.id.btn_cardMenu);
         btn_cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this,CardMenuActivity.class);
+                Intent intent = new Intent(MainActivity.this, CardMenuActivity.class);
                 startActivity(intent);
             }
         });
 
-        LinearLayout btn_history = (LinearLayout)findViewById(R.id.btn_history);
+        LinearLayout btn_history = (LinearLayout) findViewById(R.id.btn_history);
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +222,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             }
         });
 
-        LinearLayout btn_myinfo = (LinearLayout)findViewById(R.id.btn_myinfo);
+        LinearLayout btn_myinfo = (LinearLayout) findViewById(R.id.btn_myinfo);
         btn_myinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,54 +242,54 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
 
         LinearLayout btn_gps = (LinearLayout) findViewById(R.id.btn_gps);
-                btn_gps.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, SQLiteTestActivity.class);
-                        startActivity(intent);
-                    }
-                });
+        btn_gps.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "지하철 노선도 확인", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SQLiteTestActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
-                //setting 관련 코드
-                ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
-                btn_setting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fadein_right, R.anim.stay);
+        //setting 관련 코드
+        ImageButton btn_setting = (ImageButton) findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fadein_right, R.anim.stay);
 
-                    }
-                });
+            }
+        });
 
 
-                //main NFC태그 관련 코드
-                hand = (ImageView) findViewById(R.id.hand);
-                nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
-                card = (ImageButton) findViewById(R.id.personal_Card);
+        //main NFC태그 관련 코드
+        hand = (ImageView) findViewById(R.id.hand);
+        nfcReader = (LinearLayout) findViewById(R.id.nfcReader);
+        card = (ImageButton) findViewById(R.id.personal_Card);
 
-                card.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // personal_card를 누를 시 cardcounter가 0이면
-                        if (cardcounter == 0) {
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // personal_card를 누를 시 cardcounter가 0이면
+                if (cardcounter == 0) {
 
-                            // nfcReader LinearLayout이 보여짐
-                            nfcReader.setVisibility(View.VISIBLE);
+                    // nfcReader LinearLayout이 보여짐
+                    nfcReader.setVisibility(View.VISIBLE);
 
-                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.card_anim); //에니메이션설정파일
-                            card.startAnimation(cardAnim);
+                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.card_anim); //에니메이션설정파일
+                    card.startAnimation(cardAnim);
 
-                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.nfc_anim); //에니메이션설정파일
-                            nfcReader.startAnimation(nfcAnim);
+                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.nfc_anim); //에니메이션설정파일
+                    nfcReader.startAnimation(nfcAnim);
 
-                            card.setClickable(false);
-                            handcounter = 1;
+                    card.setClickable(false);
+                    handcounter = 1;
 
                     is_tag_mode = 1;  // nfc 태그시 정보 읽어오기 가능
 
@@ -290,25 +301,25 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                         sendToDB(1, 4); // 하차시 DB에 데이터 전송 (출발역, 도착역)
                     }
 
-                            cardcounter = 1;
-                        }
-                    }
+                    cardcounter = 1;
+                }
+            }
 
-                });
+        });
 
-                cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
-                cardLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (cardcounter == 1) {
+        cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+        cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cardcounter == 1) {
 
-                            cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.card2_anim); //에니메이션설정파일
-                            card.startAnimation(cardAnim);
+                    cardAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.card2_anim); //에니메이션설정파일
+                    card.startAnimation(cardAnim);
 
-                            nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
-                                    R.anim.nfc2_anim); //에니메이션설정파일
-                            nfcReader.startAnimation(nfcAnim);
+                    nfcAnim = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.nfc2_anim); //에니메이션설정파일
+                    nfcReader.startAnimation(nfcAnim);
 
 
                     nfcReader.setVisibility(View.INVISIBLE);
@@ -393,7 +404,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     }
 
     // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
-    public void sendToDB(int start, int end){
+    public void sendToDB(int start, int end) {
         // 누적 비용을 만들어서 전송할 거임
 
         String age = p_userInfo.getAge();
@@ -407,11 +418,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         int total = Integer.parseInt(n_userInfo.getTotal_fare());
 
         String time = getTime();
-        String time2 = time.substring(0,8); //날짜
+        String time2 = time.substring(0, 8); //날짜
         time = time.substring(8);    //시각
 
         int TODAY = Integer.parseInt(time2);
-        int TIME  = Integer.parseInt(time);
+        int TIME = Integer.parseInt(time);
 
         mDBHelper.InsertBoarding(TODAY, TIME, start, end, Integer.parseInt(fare), total);
         updateDB(n_userInfo);
@@ -420,16 +431,16 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     // 누적요금 합치는 공식 -> 예시임
-            public int calculateFare(int startStation, int endStation){
-                int base_fare = 1250;
-                int total_send = Integer.parseInt(p_userInfo.getTotal_fare());
-                int age = Integer.parseInt(p_userInfo.getAge());
-                int income = Integer.parseInt(p_userInfo.getIncome_grade());
-                int distance = endStation - startStation;
-                total_send += base_fare + distance*(int)(income*0.05*100);
-                p_userInfo.setTotal_fare(Integer.toString(total_send));
-                return total_send;
-            }
+    public int calculateFare(int startStation, int endStation) {
+        int base_fare = 1250;
+        int total_send = Integer.parseInt(p_userInfo.getTotal_fare());
+        int age = Integer.parseInt(p_userInfo.getAge());
+        int income = Integer.parseInt(p_userInfo.getIncome_grade());
+        int distance = endStation - startStation;
+        total_send += base_fare + distance * (int) (income * 0.05 * 100);
+        p_userInfo.setTotal_fare(Integer.toString(total_send));
+        return total_send;
+    }
 
     // Retrofit 통신으로
     private void selectDB() {
@@ -472,7 +483,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     }
 
     private void updateDB(UserInfo u_userInfo) {
-            RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
+        RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
         Call<UserInfo> call = retrofitApi.updateMember(u_userInfo.getId(), u_userInfo.getAge(), u_userInfo.getIncome_grade(), u_userInfo.getTotal_fare());
         call.enqueue(new Callback<UserInfo>() {
             @Override
@@ -490,7 +501,111 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         selectDB();
     }
 
-    public void showMessage(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        enableForegroundDispatchSystem();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        disableForegroundDispatchSystem();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+            if (is_tag_mode == 1) {
+                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                // nfc tag 데이터 읽는 부분
+                if (ride_or_quit == 0) {
+                    ride(parcelables);
+                    ride_or_quit = 1;
+                } else {
+                    quit(parcelables);
+                    ride_or_quit = 0;
+                }
+            } else {
+                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void ride(Parcelable[] parcelables) {
+        boolean is_empty = true;
+        if (parcelables != null && parcelables.length > 0) {
+            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
+            if (!rideStation.equals("None")) {
+                is_empty = false;
+                Toast.makeText(this, "ride: " + station.name2num(rideStation), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void quit(Parcelable[] parcelables) {
+        boolean is_empty = true;
+        if (parcelables != null && parcelables.length > 0) {
+            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
+            if (!quitStation.equals("None")) {
+                is_empty = false;
+                Toast.makeText(this, "quit: " + station.name2num(quitStation), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "quit: " + Integer.toString(station.getFareFromName(rideStation, quitStation)), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String readTextFromMessage(NdefMessage ndefMessage) {
+        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+
+        if (ndefRecords != null && ndefRecords.length > 0) {
+            NdefRecord ndefRecord = ndefRecords[0];
+            return getTextFromNdefRecord(ndefRecord);
+            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
+        } else {
+            return "None";
+        }
+    }
+
+    public String getTextFromNdefRecord(NdefRecord ndefRecord) {
+        String tagContent = null;
+        try {
+            byte[] payload = ndefRecord.getPayload();
+            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            int languageSize = payload[0] & 0063;
+            tagContent = new String(payload, languageSize + 1,
+                    payload.length - languageSize - 1, textEncoding);
+        } catch (UnsupportedEncodingException e) {
+            Log.e("getTextFromNdefRecord", e.getMessage(), e);
+        }
+        return tagContent;
+    }
+
+    private void enableForegroundDispatchSystem() {
+
+        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        IntentFilter[] intentFilters = new IntentFilter[]{};
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+    }
+
+    private void disableForegroundDispatchSystem() {
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    public void showMessage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("안내");
         builder.setMessage("로그아웃할 시 앱이 종료됩니다. \n로그아웃 하시겠습니까?");
@@ -521,115 +636,4 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        enableForegroundDispatchSystem();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-//        disableForegroundDispatchSystem();
-//    }
-//
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//
-//        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-//            if (is_tag_mode == 1) {
-//                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-//                // nfc tag 데이터 읽는 부분
-//                if (ride_or_quit == 0){
-//                    ride(parcelables);
-//                    ride_or_quit = 1;
-//                }
-//                else {
-//                    quit(parcelables);
-//                    ride_or_quit = 0;
-//                }
-//            }
-//            else {
-//                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-//
-//    private void ride(Parcelable[] parcelables){
-//        String rideStation;
-//        boolean is_empty = true;
-//        if(parcelables != null && parcelables.length > 0)
-//        {
-//            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
-//            if (!rideStation.equals("None")) {
-//                is_empty = false;
-//                Toast.makeText(this, "ride: " + station.string2num(rideStation), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//
-//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    private void quit(Parcelable[] parcelables){
-//        String quitStation;
-//        boolean is_empty = true;
-//        if(parcelables != null && parcelables.length > 0)
-//        {
-//            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
-//            if (!quitStation.equals("None")) {
-//                is_empty = false;
-//                Toast.makeText(this, "quit: " + station.string2num(quitStation), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//
-//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    private String readTextFromMessage(NdefMessage ndefMessage) {
-//        NdefRecord[] ndefRecords = ndefMessage.getRecords();
-//
-//        if(ndefRecords != null && ndefRecords.length>0){
-//            NdefRecord ndefRecord = ndefRecords[0];
-//            return getTextFromNdefRecord(ndefRecord);
-//            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
-//        }else
-//        {
-//            return "None";
-//        }
-//    }
-//
-//    public String getTextFromNdefRecord(NdefRecord ndefRecord)
-//    {
-//        String tagContent = null;
-//        try {
-//            byte[] payload = ndefRecord.getPayload();
-//            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-//            int languageSize = payload[0] & 0063;
-//            tagContent = new String(payload, languageSize + 1,
-//                    payload.length - languageSize - 1, textEncoding);
-//        } catch (UnsupportedEncodingException e) {
-//            Log.e("getTextFromNdefRecord", e.getMessage(), e);
-//        }
-//        return tagContent;
-//    }
-//
-//    private void enableForegroundDispatchSystem() {
-//
-//        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        IntentFilter[] intentFilters = new IntentFilter[]{};
-//        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
-//    }
-//
-//    private void disableForegroundDispatchSystem() {
-//        nfcAdapter.disableForegroundDispatch(this);
-//    }
 }
