@@ -16,6 +16,7 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo_menu);
 
+        TextView text_user_name = (TextView) findViewById(R.id.text_user_name); //이름
         TextView info_name = (TextView) findViewById(R.id.info_name); //이름
         TextView info_number = (TextView) findViewById(R.id.info_number); //전화번호
         TextView info_brith = (TextView) findViewById(R.id.info_brith); //생년월일
@@ -24,6 +25,7 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         TextView info_extracharge = (TextView) findViewById(R.id.info_extracharge); //추가 비용
 
         // setText 로 할당하기
+        text_user_name.setText(MainActivity.NAME);
         info_name.setText(MainActivity.NAME);
         info_number.setText(KakaoLogin2Activity.PhoneNumber);
         info_brith.setText(KakaoLogin2Activity.IdentificationNumber);

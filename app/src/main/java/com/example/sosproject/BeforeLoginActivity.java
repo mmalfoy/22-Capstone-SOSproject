@@ -209,7 +209,8 @@ public class BeforeLoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(MeV2Response result) {
                         // 로그인 성공
-                        Intent intent = new Intent(BeforeLoginActivity.this, KakaoLogin2Activity.class);
+                       // Intent intent = new Intent(BeforeLoginActivity.this, KakaoLogin2Activity.class);
+                        Intent intent = new Intent(BeforeLoginActivity.this, MainActivity.class);
                         intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
                         intent.putExtra("profileImg", result.getKakaoAccount().getProfile().getProfileImageUrl());
                         intent.putExtra("birth", result.getKakaoAccount().getBirthday());
@@ -228,7 +229,7 @@ public class BeforeLoginActivity extends AppCompatActivity {
         };
 
         Session.getCurrentSession().addCallback(mSessionCallback);
-        //Session.getCurrentSession().checkAndImplicitOpen(); //세션 유지
+        Session.getCurrentSession().checkAndImplicitOpen(); //세션 유지
         //getAppKeyHash();
     }
 

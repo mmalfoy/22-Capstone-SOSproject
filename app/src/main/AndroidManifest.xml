@@ -41,9 +41,6 @@
             android:name=".Agree_1"
             android:exported="true" />
         <activity
-            android:name=".BeforeLogin_explane_Activity"
-            android:exported="true" />
-        <activity
             android:name=".AppinfoActivity"
             android:exported="true" />
         <activity
@@ -63,9 +60,10 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true" />
+
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".BeforeLogin_explane_Activity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -75,7 +73,10 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
