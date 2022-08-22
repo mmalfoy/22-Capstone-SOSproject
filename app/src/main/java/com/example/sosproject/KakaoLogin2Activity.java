@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +33,9 @@ public class KakaoLogin2Activity extends AppCompatActivity {
         Intent intent = getIntent();
         strNick = intent.getStringExtra("name");
         strProfileImg = intent.getStringExtra("profileImg");
+        MainActivity.NAME = strNick;
 
+        Log.e("KaKao", MainActivity.NAME);
         TextView tv_nick = (TextView) findViewById(R.id.tv_nickName);      // 이름
         ImageView iv_profile = (ImageView) findViewById(R.id.iv_profile);   // 프로필 사진
         EditText et_number = (EditText) findViewById(R.id.et_number);      // 생년월일
@@ -111,9 +114,15 @@ public class KakaoLogin2Activity extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 IdentificationNumber = et_number.getText().toString(); // 생년월일 저장
                 PhoneNumber = et_phone.getText().toString();            // 전화번호 저장
                 Toast.makeText(KakaoLogin2Activity.this, "추가정보 입력이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+//                Intent nintent = new Intent(KakaoLogin2Activity.this, MainActivity.class);
+//                nintent.putExtra("name", strNick);
+//                Log.e("KaKao", strNick);
+//                startActivity(nintent);
+
                 finish();   //현재 액티비티 종료
             }
         });

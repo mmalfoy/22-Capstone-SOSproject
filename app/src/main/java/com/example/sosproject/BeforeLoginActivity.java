@@ -69,15 +69,18 @@ public class BeforeLoginActivity extends AppCompatActivity {
         ImageButton btn_thirdcheck = (ImageButton) findViewById(R.id.third_check);
         TextView tv_first = (TextView) findViewById(R.id.tv_first);
         TextView tv_second = (TextView) findViewById(R.id.tv_second);
+        TextView tv_third = (TextView) findViewById(R.id.tv_third);
 
         btn_firstcheck.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(a == 0){
                     btn_rulePage.setVisibility(View.VISIBLE);
-                    btn_kakaoLogin.setVisibility(View.INVISIBLE);
+                    btn_rulePage.setClickable(true);
+
+                    //btn_kakaoLogin.setVisibility(View.INVISIBLE);
                     tv_second.setBackgroundResource(R.drawable.deepblue_radius);
-                    tv_first.setBackgroundResource(R.drawable.lightgray_radius);
+                    //tv_first.setBackgroundResource(R.drawable.lightgray_radius);
 
                     btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
                     a = 1;
@@ -99,7 +102,7 @@ public class BeforeLoginActivity extends AppCompatActivity {
 
                     btn_rulePage.setVisibility(View.INVISIBLE);
                     btn_rulePage.setClickable(false);
-                    btn_kakaoLogin.setVisibility(View.VISIBLE);
+                    //btn_kakaoLogin.setVisibility(View.VISIBLE);
                     tv_second.setBackgroundResource(R.drawable.lightgray_radius);
                     tv_first.setBackgroundResource(R.drawable.deepblue_radius);
                 }
@@ -115,9 +118,10 @@ public class BeforeLoginActivity extends AppCompatActivity {
                     b = 1;
                     if(c == 1){
                         btn_rulePage.setVisibility(View.VISIBLE);
-                        btn_kakaoLogin.setVisibility(View.INVISIBLE);
+                        btn_rulePage.setClickable(true);
+                        //btn_kakaoLogin.setVisibility(View.INVISIBLE);
                         tv_second.setBackgroundResource(R.drawable.deepblue_radius);
-                        tv_first.setBackgroundResource(R.drawable.lightgray_radius);
+                        //tv_first.setBackgroundResource(R.drawable.lightgray_radius);
 
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
                         a = 1;
@@ -129,7 +133,8 @@ public class BeforeLoginActivity extends AppCompatActivity {
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
                         a = 0;
                         btn_rulePage.setVisibility(View.INVISIBLE);
-                        btn_kakaoLogin.setVisibility(View.VISIBLE);
+                        btn_rulePage.setClickable(false);
+                        //btn_kakaoLogin.setVisibility(View.VISIBLE);
                         tv_second.setBackgroundResource(R.drawable.lightgray_radius);
                         tv_first.setBackgroundResource(R.drawable.deepblue_radius);
                     }
@@ -145,9 +150,10 @@ public class BeforeLoginActivity extends AppCompatActivity {
                     c = 1;
                     if(b ==1 ){
                         btn_rulePage.setVisibility(View.VISIBLE);
-                        btn_kakaoLogin.setVisibility(View.INVISIBLE);
+                        btn_rulePage.setClickable(true);
+                        // btn_kakaoLogin.setVisibility(View.INVISIBLE);
                         tv_second.setBackgroundResource(R.drawable.deepblue_radius);
-                        tv_first.setBackgroundResource(R.drawable.lightgray_radius);
+                        //tv_first.setBackgroundResource(R.drawable.lightgray_radius);
 
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_24);
                         a = 1;
@@ -159,14 +165,28 @@ public class BeforeLoginActivity extends AppCompatActivity {
                         btn_firstcheck.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
                         a = 0;
                         btn_rulePage.setVisibility(View.INVISIBLE);
-                        //  btn_rulePage.setClickable(false);
-                        btn_kakaoLogin.setVisibility(View.VISIBLE);
+                        btn_rulePage.setClickable(false);
+                        //btn_kakaoLogin.setVisibility(View.VISIBLE);
                         tv_second.setBackgroundResource(R.drawable.lightgray_radius);
                         tv_first.setBackgroundResource(R.drawable.deepblue_radius);
                     }
                 }
             }
         });
+
+        btn_rulePage.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(),"인텐트 넘기고 & finish ", Toast.LENGTH_SHORT).show();
+                btn_firstcheck.setClickable(false);
+                btn_secondcheck.setClickable(false);
+                btn_thirdcheck.setClickable(false);
+                tv_third.setBackgroundResource(R.drawable.deepblue_radius);
+                btn_kakaoLogin.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
         ImageButton btn_secondright = (ImageButton) findViewById(R.id.second_right);
         btn_secondright.setOnClickListener(new Button.OnClickListener() {

@@ -65,9 +65,8 @@ public class SQLiteTestActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        mDBHelper = new DBHelper(this);
-        mDBHelper.dbInitialize();
-        mDBHelper.InsertBoarding(220821,1245,401,301,1250,2500);
+        mDBHelper = new DBHelper(this, MainActivity.p_id, 1);
+
         arrayList = mDBHelper.getBoardingList();
 
         setContentView(R.layout.activity_sqlite_test);

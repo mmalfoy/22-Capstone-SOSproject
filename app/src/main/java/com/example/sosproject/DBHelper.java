@@ -12,11 +12,14 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "sos.db";
+    private int DB_VERSION;
+    private String DB_NAME;
     public static int cnt;
-    public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    public DBHelper(@Nullable Context context, String db_name, int db_version) {
+        super(context, db_name, null, db_version);
+        this.DB_VERSION = db_version;
+        this.DB_NAME = db_name;
+
     }
 
     @Override

@@ -55,7 +55,7 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        mDBHelper = new DBHelper(this);
+        mDBHelper = new DBHelper(this, MainActivity.p_id, 1);
         arrayList = mDBHelper.getBoardingList();
         //뒤로가기
         ImageView back_card_menu = (ImageView)findViewById(R.id.back_history);
