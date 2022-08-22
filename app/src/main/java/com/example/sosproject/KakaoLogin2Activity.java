@@ -22,13 +22,15 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 public class KakaoLogin2Activity extends AppCompatActivity {
     public static String strNick, strProfileImg;
     public static String IdentificationNumber;    // 주민등록번호
-    public static String PhoneNumber;             // 휴대폰 번호
+    public static String PhoneNumber = "default";             // 휴대폰 번호
+
     int a=0, b=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kakao_login2);
+
 
         Intent intent = getIntent();
         strNick = intent.getStringExtra("name");
@@ -115,7 +117,10 @@ public class KakaoLogin2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 IdentificationNumber = et_number.getText().toString(); // 생년월일 저장
-                PhoneNumber = et_phone.getText().toString();            // 전화번호 저장
+                PhoneNumber = et_phone.getText().toString();            // 전화번호 저장름
+                BeforeLoginActivity.phonenumber = PhoneNumber;
+                BeforeLoginActivity.birthday = IdentificationNumber;
+                Log.e("Kakao2", PhoneNumber);
                 Toast.makeText(KakaoLogin2Activity.this, "추가정보 입력이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 //                Intent nintent = new Intent(KakaoLogin2Activity.this, MainActivity.class);
 //                nintent.putExtra("name", strNick);

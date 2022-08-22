@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ADBHelper extends SQLiteOpenHelper {
     private static int DB_VERSION = 1;
-    private static final String DB_NAME = "account_db";
+    private static final String DB_NAME = "account.db";
     public static int cnt;
     public ADBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -21,7 +21,7 @@ public class ADBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS AccoountList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, phone TEXT NOT NULL, birth TEXT NOT NULL, login INTEGER NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS accountInfoList(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, phone TEXT NOT NULL, birth TEXT NOT NULL, login INTEGER NOT NULL)");
 
     }
 
@@ -55,7 +55,7 @@ public class ADBHelper extends SQLiteOpenHelper {
 
         public void InsertAccountInfo(String _name, String _phone, String _birth, int _login) {
             SQLiteDatabase db = getWritableDatabase();
-            db.execSQL("INSERT INTO accountInfoList (name, phone, birth, login) VALUES('" + _name + "','" + _phone + "', '" + _birth + "', '" + _login + "');");
+            db.execSQL("INSERT INTO accountInfoList (name, phone, birth, login) VALUES('" + _name + "', '" + _phone + "', '" + _birth + "', '" + _login + "');");
         }
 
         public void updateAccountInfo(String _name, String _phone, String _birth, int _login){
