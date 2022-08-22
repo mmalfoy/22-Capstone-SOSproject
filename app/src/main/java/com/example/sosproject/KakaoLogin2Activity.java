@@ -35,18 +35,18 @@ public class KakaoLogin2Activity extends AppCompatActivity {
         strProfileImg = intent.getStringExtra("profileImg");
         MainActivity.NAME = strNick;
 
-        Log.e("KaKao", MainActivity.NAME);
-        TextView tv_nick = (TextView) findViewById(R.id.tv_nickName);      // 이름
-        ImageView iv_profile = (ImageView) findViewById(R.id.iv_profile);   // 프로필 사진
+        //Log.e("KaKao", MainActivity.NAME);
+//        TextView tv_nick = (TextView) findViewById(R.id.tv_nickName);      // 이름
+//        ImageView iv_profile = (ImageView) findViewById(R.id.iv_profile);   // 프로필 사진
         EditText et_number = (EditText) findViewById(R.id.et_number);      // 생년월일
         EditText et_phone = (EditText) findViewById(R.id.et_phone);        // 휴대폰 번호
         Button btn_start = (Button) findViewById(R.id.btn_start);        // 앱 시작하기
         Button btn_logout = (Button) findViewById(R.id.btn_logout);      // 앱 로그아웃
 
-        //닉네임 set
-        tv_nick.setText(strNick);
-        //프로필 이미지 사진 set
-        Glide.with(this).load(strProfileImg).into(iv_profile);
+//        //닉네임 set
+//        tv_nick.setText(strNick);
+//        //프로필 이미지 사진 set
+//        Glide.with(this).load(strProfileImg).into(iv_profile);
 
         btn_start.setEnabled(false);
 
@@ -114,7 +114,6 @@ public class KakaoLogin2Activity extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 IdentificationNumber = et_number.getText().toString(); // 생년월일 저장
                 PhoneNumber = et_phone.getText().toString();            // 전화번호 저장
                 Toast.makeText(KakaoLogin2Activity.this, "추가정보 입력이 완료되었습니다.", Toast.LENGTH_SHORT).show();
