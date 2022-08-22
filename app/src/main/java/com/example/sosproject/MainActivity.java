@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //            startActivity(new Intent(this, noNfcWarning.class));
 //        }
 
-        mDBHelper = new DBHelper(this);
+        mDBHelper = new DBHelper(this, p_id, 1);
         //로딩화면 관련 코드
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
