@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     // Retrofit (Spring server 연결부)
     // 생년월일은 중복되네..
     // 주민등록번호 리턴 가능?? -> HASH 값으로 변환해야 됨..
-    static final String p_id = "990321";
+    static final String p_id = "950530";
     static UserInfo p_userInfo;
 
     DBHelper mDBHelper;
@@ -298,7 +298,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                         handAnim = AnimationUtils.loadAnimation(getApplicationContext(),
                                 R.anim.hand_anim); //에니메이션설정파일
                         hand.startAnimation(handAnim);
-                        sendToDB(1, 4); // 하차시 DB에 데이터 전송 (출발역, 도착역)
                     }
 
                     cardcounter = 1;
@@ -412,10 +411,10 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
         UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
-        String fare = Integer.toString(calculateFare(start, end));
-        n_userInfo.setTotal_fare(fare);
+        int fare = station.getFareFromNum(start, end);
+        int total_fare = Integer.parseInt(p_userInfo.getTotal_fare())+ fare;
 
-        int total = Integer.parseInt(n_userInfo.getTotal_fare());
+        n_userInfo.setTotal_fare(Integer.toString(total_fare));
 
         String time = getTime();
         String time2 = time.substring(0, 8); //날짜
@@ -424,23 +423,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         int TODAY = Integer.parseInt(time2);
         int TIME = Integer.parseInt(time);
 
-        mDBHelper.InsertBoarding(TODAY, TIME, start, end, Integer.parseInt(fare), total);
+        mDBHelper.InsertBoarding(TODAY, TIME, start, end, fare, total_fare);
         updateDB(n_userInfo);
 
     }
 
-
-    // 누적요금 합치는 공식 -> 예시임
-    public int calculateFare(int startStation, int endStation) {
-        int base_fare = 1250;
-        int total_send = Integer.parseInt(p_userInfo.getTotal_fare());
-        int age = Integer.parseInt(p_userInfo.getAge());
-        int income = Integer.parseInt(p_userInfo.getIncome_grade());
-        int distance = endStation - startStation;
-        total_send += base_fare + distance * (int) (income * 0.05 * 100);
-        p_userInfo.setTotal_fare(Integer.toString(total_send));
-        return total_send;
-    }
 
     // Retrofit 통신으로
     private void selectDB() {
@@ -529,6 +516,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 } else {
                     quit(parcelables);
                     ride_or_quit = 0;
+                    sendToDB(station.name2num(rideStation), station.name2num(quitStation));
                 }
             } else {
                 Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();

@@ -163,7 +163,7 @@ public class HistoryActivity extends AppCompatActivity {
             String str_pay = chargeChanger_history(PAY) + " 원";
             adapter.setArrayData(str_pay,1);
 
-            WHERE = new int[] {0,1}; //여기 뒤에 {, } 내용만 넣어주면 됨(수정)
+            WHERE = new int[] {arrayList.get(i).getStart(),arrayList.get(i).getEnd()}; //여기 뒤에 {, } 내용만 넣어주면 됨(수정)
             String str_where = whereChanger(WHERE);
             adapter.setArrayData(str_where,2);
 
@@ -210,33 +210,9 @@ public class HistoryActivity extends AppCompatActivity {
     //역사 코드 -> 탑승내역 변환
     protected String whereChanger(int[] WHERE) {
         String temp = "";
-
-        for(int i=0; i<2;i++){
-
-            switch (WHERE[i]){
-                case 0:
-                    temp += "장승배기역";
-                    break;
-                case 1:
-                    temp += "상도역";
-                    break;
-                case 2:
-                    temp += "숭실대 입구역";
-                    break;
-                case 3:
-                    temp += "남성역";
-                    break;
-                case 4:
-                    temp += "이수역";
-                    break;
-
-            }
-            if(i == 0)
-                temp += " -> ";
-
-        }
+        Station station = new Station();
+        temp = station.num2name(WHERE[0]) + " -> " + station.num2name(WHERE[1]);
         return temp;
-
     }
 
     //비용 int -> string
