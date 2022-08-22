@@ -1,128 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BeforeLoginActivity"
+    tools:context=".KakaoLogin2Activity"
+    android:background="#F0F8FF"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:text="회원정보 입력"
-        android:textSize="24dp"
+        android:layout_height="70sp"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:textStyle="bold"
-        android:background="#B4E5FF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:weightSum="3"
+        android:background="#B4E5FF">
 
-    <TextView
-        android:id="@+id/tv_third"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="35dp"
-        android:background="@drawable/deepblue_radius"
-        android:gravity="center"
-        android:text="02"
-        android:textColor="#FFFFFF"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="@drawable/deepblue_radius"
+            android:gravity="center"
+
+            android:layout_gravity="center"
+            android:text="02"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="2"
+            android:layout_marginLeft="55sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="회원정보 입력"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            />
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="411dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="110dp"
-        android:text=" 소득 분위 확인을 위해 추가 정보를 입력해주세요.\n 정확한 정보를 입력하지 않을 시 앱 이용에 문제가 될 수 있습니다."
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="411dp"
-        android:layout_height="60dp"
-        android:text="이름 및 기타정보는 카카오로 로그인하면서 자동으로 연동됩니다."
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="본인 확인을 위해 추가 정보를 입력해주세요."
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="▷ 정확하지 않은 정보를 입력하시면 서비스 이용에 문제가 발생할 수 있으며, 이에 대한 책임은 당사가 지지 않음을 명시합니다."
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="▷ 이름 및 기타정보는 카카오로 로그인하면서 자동으로 연동됩니다."
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    </LinearLayout>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30sp"/>
 
     <EditText
         android:id="@+id/et_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+
         android:hint="생년월일 입력 ( ex : 000000)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginTop="20sp"
+        android:hint="전화번호 입력 ( ex : 01012345678)"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30sp"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text=" ▷ 추가정보를 올바르게 입력했을 시, 앱을 시작할 수 있습니다.\n 입력한 정보가 맞는지 확인한 뒤 앱을 시작해주세요."
+
+        android:text=" ▷ 추가 정보를 바르게 입력하신 후, 서비스가 제공됩니다.\n\t\t\t입력하신 정보가 맞는지 다시 한번 확인해주세요."
         android:textSize="15dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_phone" />
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40sp"/>
+
 
     <Button
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="60sp"
         android:text="입력 완료"
         android:textColor="#000000"
         android:textSize="20dp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
         app:backgroundTint="#E5E5E5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        />
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#B4E5FF"
-        android:text="로그아웃"
-        android:textColor="#696969"
-        android:textStyle="bold"
-        app:backgroundTint="#B4E5FF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20sp"/>
 
-    <EditText
-        android:id="@+id/et_phone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:hint="전화번호 입력 ( ex : 01012345678)"
-        app:layout_constraintEnd_toEndOf="@+id/et_number"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_number"
-        app:layout_constraintTop_toBottomOf="@+id/et_number" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

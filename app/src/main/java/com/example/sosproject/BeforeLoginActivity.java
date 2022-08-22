@@ -179,8 +179,6 @@ public class BeforeLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BeforeLoginActivity.this,KakaoLogin2Activity.class);
                 startActivity(intent);
-
-                Toast.makeText(getApplicationContext(),"인텐트 넘기고 & finish ", Toast.LENGTH_SHORT).show();
                 btn_firstcheck.setClickable(false);
                 btn_secondcheck.setClickable(false);
                 btn_thirdcheck.setClickable(false);

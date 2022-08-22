@@ -41,7 +41,7 @@ public class KakaoLogin2Activity extends AppCompatActivity {
         EditText et_number = (EditText) findViewById(R.id.et_number);      // 생년월일
         EditText et_phone = (EditText) findViewById(R.id.et_phone);        // 휴대폰 번호
         Button btn_start = (Button) findViewById(R.id.btn_start);        // 앱 시작하기
-        Button btn_logout = (Button) findViewById(R.id.btn_logout);      // 앱 로그아웃
+        //Button btn_logout = (Button) findViewById(R.id.btn_logout);      // 앱 로그아웃
 
 //        //닉네임 set
 //        tv_nick.setText(strNick);
@@ -121,25 +121,24 @@ public class KakaoLogin2Activity extends AppCompatActivity {
 //                nintent.putExtra("name", strNick);
 //                Log.e("KaKao", strNick);
 //                startActivity(nintent);
-
                 finish();   //현재 액티비티 종료
             }
         });
 
-        //카카오 API에 로그아웃 요청
-        btn_logout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        // 로그아웃 성공시 수행하는 지점
-                        finish(); // 현재 액티비티 종료
-                    }
-                });
-            }
-        });
+//        //카카오 API에 로그아웃 요청
+//        btn_logout.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+//                    @Override
+//                    public void onCompleteLogout() {
+//                        // 로그아웃 성공시 수행하는 지점
+//                        finish(); // 현재 액티비티 종료
+//                    }
+//                });
+//            }
+//        });
     }
 }
