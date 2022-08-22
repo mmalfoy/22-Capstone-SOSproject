@@ -47,6 +47,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.usermgmt.response.model.User;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.io.BufferedReader;
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     Date mDate;
     SimpleDateFormat mFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 
-
     private String getTime() {
         mNow = System.currentTimeMillis();
         mDate = new Date(mNow);
@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         dbHelper = new PeopleDBHelper(this, DB_NAME, 1);
 
         //dbHelper.insertRecord("손현석", 1998);
-
         int isit = printTabletest("하이");
         Log.d("TAG", "isit : " + isit);
 
@@ -303,7 +302,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                     cardcounter = 1;
                 }
             }
-
         });
 
         cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
@@ -405,16 +403,13 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     // NFC 태그를 읽었을 때 DB로 데이터를 전송하는 함수, total 요금을 전송
     public void sendToDB(int start, int end) {
         // 누적 비용을 만들어서 전송할 거임
-
-        String age = p_userInfo.getAge();
-        String income = p_userInfo.getIncome_grade();
-
-
         UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
+        Log.d("debug1", n_userInfo.getTotal_fare());
         int fare = station.getFareFromNum(start, end);
         int total_fare = Integer.parseInt(p_userInfo.getTotal_fare())+ fare;
 
         n_userInfo.setTotal_fare(Integer.toString(total_fare));
+        Log.d("debug2", n_userInfo.getTotal_fare());
 
         String time = getTime();
         String time2 = time.substring(0, 8); //날짜
@@ -425,7 +420,6 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         mDBHelper.InsertBoarding(TODAY, TIME, start, end, fare, total_fare);
         updateDB(n_userInfo);
-
     }
 
 
@@ -442,9 +436,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 // 통신이 잘 이뤄지면
                 if (response.isSuccessful()) {
                     UserInfo s_userInfo = response.body(); // DB의 데이터를 List<UserInfo> 형태로 읽어들임
+                    Log.d("debug4", s_userInfo.getTotal_fare());
                     // list에서 p_id를 id로 갖는 UserInfo 타입의 객체를 p_userInfo에 저장
                     // p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
                     p_userInfo = s_userInfo;
+                    Log.d("debug5", p_userInfo.getTotal_fare());
                     // NAME에 p_userInfo.getId() 할당
                     String name = NAME;
                     // CHARGE에 p_userInfo.getTotal_fare() 할당
@@ -455,6 +451,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
                     personal_name.setText(name);
                     personal_charge.setText(CHARGE);
+                    Log.d("debug6", p_userInfo.getTotal_fare());
 
                 } else {
                     Log.e("SelectDB", "response but fail");
@@ -469,13 +466,31 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         });
     }
 
+    private void syncDB(UserInfo s_userInfo) {
+        Log.d("debug4", s_userInfo.getTotal_fare());
+        // list에서 p_id를 id로 갖는 UserInfo 타입의 객체를 p_userInfo에 저장
+        // p_userInfo = list.stream().filter(h -> h.getId().equals(p_id)).findFirst().orElseThrow(() -> new IllegalArgumentException());
+        p_userInfo = s_userInfo;
+        Log.d("debug5", p_userInfo.getTotal_fare());
+        // NAME에 p_userInfo.getId() 할당
+        String name = NAME;
+        // CHARGE에 p_userInfo.getTotal_fare() 할당
+        chargeChanger(Integer.parseInt(s_userInfo.getTotal_fare())); // -> 10,000과 같이 세 자리 ,로 끊는 함수
+
+        TextView personal_name = (TextView) findViewById(R.id.personal_name);
+        TextView personal_charge = (TextView) findViewById(R.id.menu_charge);
+
+        personal_name.setText(name);
+        personal_charge.setText(CHARGE);
+        Log.d("debug6", p_userInfo.getTotal_fare());
+    }
+
     private void updateDB(UserInfo u_userInfo) {
         RetrofitAPI retrofitApi = RetrofitClientInstance.getRetrofitInstance().create(RetrofitAPI.class);
         Call<UserInfo> call = retrofitApi.updateMember(u_userInfo.getId(), u_userInfo.getAge(), u_userInfo.getIncome_grade(), u_userInfo.getTotal_fare());
         call.enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-
                 Log.e("updateDB", u_userInfo.getTotal_fare());
             }
 
@@ -485,7 +500,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
                 t.printStackTrace();
             }
         });
-        selectDB();
+        Log.d("debug3", u_userInfo.getTotal_fare());
+        syncDB(u_userInfo);
     }
 
     @Override
