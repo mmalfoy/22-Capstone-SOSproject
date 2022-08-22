@@ -56,6 +56,8 @@ import org.w3c.dom.Text;
 public class BeforeLoginActivity extends AppCompatActivity {
     int a = 0,b = 0,c = 0;
     private ISessionCallback mSessionCallback;
+    public static String phonenumber = "default";
+    public static String birthday = "default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
