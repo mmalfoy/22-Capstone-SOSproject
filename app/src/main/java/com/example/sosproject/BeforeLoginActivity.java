@@ -58,11 +58,13 @@ public class BeforeLoginActivity extends AppCompatActivity {
     private ISessionCallback mSessionCallback;
     public static String phonenumber = "default";
     public static String birthday = "default";
+    ADBHelper aDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_login);
+        aDBHelper = new ADBHelper(this);
 
         Button btn_rulePage = (Button) findViewById(R.id.rule_page_btn);
         Button btn_kakaoLogin = (Button) findViewById(R.id.kakao_login_btn);
@@ -232,10 +234,37 @@ public class BeforeLoginActivity extends AppCompatActivity {
                     public void onSuccess(MeV2Response result) {
                         // 로그인 성공
                        // Intent intent = new Intent(BeforeLoginActivity.this, KakaoLogin2Activity.class);
+                        ArrayList <AccountInfo> accountList;
+                        AccountInfo accountInfo;
+                        String name = result.getKakaoAccount().getProfile().getNickname();
+                        // 자동 로그인일시
+                        if(phonenumber == "default") {
+
+                            accountList = aDBHelper.getAccountInfoList();
+                            //Log.e("Before", Integer.toString(accountList.size()) + name);
+                            for(int i=0;i< accountList.size();i++){
+                                //Log.e("BeforeLoop", "s"+accountList.get(i).getName()+"s" + name+"s");
+
+                                if(accountList.get(i).getName().equals(name)){
+
+                                    phonenumber = accountList.get(i).getPhone();
+                                    birthday = accountList.get(i).getBirth();
+                                    //Log.e("Before Loop", phonenumber + birthday);
+
+                                }
+                            }
+
+                        }
+                        else { // 첫 로그인일시 DB 저장
+                            //Log.e("Before", phonenumber);
+                            aDBHelper.InsertAccountInfo(name ,phonenumber, birthday, 1);
+                        }
+
+
                         Intent intent = new Intent(BeforeLoginActivity.this, MainActivity.class);
                         intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
-                        intent.putExtra("profileImg", result.getKakaoAccount().getProfile().getProfileImageUrl());
-                        intent.putExtra("birth", result.getKakaoAccount().getBirthday());
+                        intent.putExtra("birth", birthday);
+                        intent.putExtra("phone", phonenumber);
                         startActivity(intent);
 
                         Toast.makeText(BeforeLoginActivity.this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show();

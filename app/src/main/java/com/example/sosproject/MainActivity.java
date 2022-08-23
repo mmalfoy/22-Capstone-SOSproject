@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     // Retrofit (Spring server 연결부)
     // 생년월일은 중복되네..
     // 주민등록번호 리턴 가능?? -> HASH 값으로 변환해야 됨..
-    static final String p_id = "950530";
+    static String p_id;
     static UserInfo p_userInfo;
 
     DBHelper mDBHelper;
@@ -133,7 +133,11 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         Intent intent2 = getIntent();
         NAME = intent2.getStringExtra("name");
-        Log.e("이름 가져왔을 때", NAME);
+        String Phone = intent2.getStringExtra("phone");
+        String Birth = intent2.getStringExtra("birth");
+
+        p_id = Phone+Birth;
+        Log.e("Main", p_id);
 //        // NFC를 지원하지 않는 경우 종료
 //        if (nfcAdapter == null) {
 //            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
@@ -236,7 +240,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                showMessage();
+                // showMessage();
             }
         });
 
@@ -504,140 +508,140 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         syncDB(u_userInfo);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        enableForegroundDispatchSystem();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        disableForegroundDispatchSystem();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            if (is_tag_mode == 1) {
-                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-                // nfc tag 데이터 읽는 부분
-                if (ride_or_quit == 0) {
-                    ride(parcelables);
-                    ride_or_quit = 1;
-                } else {
-                    quit(parcelables);
-                    ride_or_quit = 0;
-                    sendToDB(station.name2num(rideStation), station.name2num(quitStation));
-                }
-            } else {
-                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void ride(Parcelable[] parcelables) {
-        boolean is_empty = true;
-        if (parcelables != null && parcelables.length > 0) {
-            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!rideStation.equals("None")) {
-                is_empty = false;
-                Toast.makeText(this, "ride: " + station.name2num(rideStation), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void quit(Parcelable[] parcelables) {
-        boolean is_empty = true;
-        if (parcelables != null && parcelables.length > 0) {
-            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
-            if (!quitStation.equals("None")) {
-                is_empty = false;
-                Toast.makeText(this, "quit: " + station.name2num(quitStation), Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "quit: " + Integer.toString(station.getFareFromName(rideStation, quitStation)), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
-            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private String readTextFromMessage(NdefMessage ndefMessage) {
-        NdefRecord[] ndefRecords = ndefMessage.getRecords();
-
-        if (ndefRecords != null && ndefRecords.length > 0) {
-            NdefRecord ndefRecord = ndefRecords[0];
-            return getTextFromNdefRecord(ndefRecord);
-            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
-        } else {
-            return "None";
-        }
-    }
-
-    public String getTextFromNdefRecord(NdefRecord ndefRecord) {
-        String tagContent = null;
-        try {
-            byte[] payload = ndefRecord.getPayload();
-            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-            int languageSize = payload[0] & 0063;
-            tagContent = new String(payload, languageSize + 1,
-                    payload.length - languageSize - 1, textEncoding);
-        } catch (UnsupportedEncodingException e) {
-            Log.e("getTextFromNdefRecord", e.getMessage(), e);
-        }
-        return tagContent;
-    }
-
-    private void enableForegroundDispatchSystem() {
-
-        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        IntentFilter[] intentFilters = new IntentFilter[]{};
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
-    }
-
-    private void disableForegroundDispatchSystem() {
-        nfcAdapter.disableForegroundDispatch(this);
-    }
-
-    public void showMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("안내");
-        builder.setMessage("로그아웃할 시 앱이 종료됩니다. \n로그아웃 하시겠습니까?");
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-
-        //로그아웃 "예"
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        finish(); // 현재 액티비티 종료
-                    }
-                });
-            }
-        });
-
-        //로그아웃 "아니오"
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                builder.setNegativeButton("아니오", null);
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        enableForegroundDispatchSystem();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        disableForegroundDispatchSystem();
+//    }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+//            if (is_tag_mode == 1) {
+//                Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+//                // nfc tag 데이터 읽는 부분
+//                if (ride_or_quit == 0) {
+//                    ride(parcelables);
+//                    ride_or_quit = 1;
+//                } else {
+//                    quit(parcelables);
+//                    ride_or_quit = 0;
+//                    sendToDB(station.name2num(rideStation), station.name2num(quitStation));
+//                }
+//            } else {
+//                Toast.makeText(this, "open NFC tag mode", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    private void ride(Parcelable[] parcelables) {
+//        boolean is_empty = true;
+//        if (parcelables != null && parcelables.length > 0) {
+//            rideStation = readTextFromMessage((NdefMessage) parcelables[0]);
+//            if (!rideStation.equals("None")) {
+//                is_empty = false;
+//                Toast.makeText(this, "ride: " + station.name2num(rideStation), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private void quit(Parcelable[] parcelables) {
+//        boolean is_empty = true;
+//        if (parcelables != null && parcelables.length > 0) {
+//            quitStation = readTextFromMessage((NdefMessage) parcelables[0]);
+//            if (!quitStation.equals("None")) {
+//                is_empty = false;
+//                Toast.makeText(this, "quit: " + station.name2num(quitStation), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "quit: " + Integer.toString(station.getFareFromName(rideStation, quitStation)), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (is_empty) {// 빈 nfc tag 라면 No NDEF messages found 메시지 출력
+//            Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private String readTextFromMessage(NdefMessage ndefMessage) {
+//        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+//
+//        if (ndefRecords != null && ndefRecords.length > 0) {
+//            NdefRecord ndefRecord = ndefRecords[0];
+//            return getTextFromNdefRecord(ndefRecord);
+//            // Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
+//        } else {
+//            return "None";
+//        }
+//    }
+//
+//    public String getTextFromNdefRecord(NdefRecord ndefRecord) {
+//        String tagContent = null;
+//        try {
+//            byte[] payload = ndefRecord.getPayload();
+//            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+//            int languageSize = payload[0] & 0063;
+//            tagContent = new String(payload, languageSize + 1,
+//                    payload.length - languageSize - 1, textEncoding);
+//        } catch (UnsupportedEncodingException e) {
+//            Log.e("getTextFromNdefRecord", e.getMessage(), e);
+//        }
+//        return tagContent;
+//    }
+//
+//    private void enableForegroundDispatchSystem() {
+//
+//        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//        IntentFilter[] intentFilters = new IntentFilter[]{};
+//        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+//    }
+//
+//    private void disableForegroundDispatchSystem() {
+//        nfcAdapter.disableForegroundDispatch(this);
+//    }
+//
+//    public void showMessage() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("안내");
+//        builder.setMessage("로그아웃할 시 앱이 종료됩니다. \n로그아웃 하시겠습니까?");
+//        builder.setIcon(android.R.drawable.ic_dialog_alert);
+//
+//        //로그아웃 "예"
+//        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+//                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+//                    @Override
+//                    public void onCompleteLogout() {
+//                        finish(); // 현재 액티비티 종료
+//                    }
+//                });
+//            }
+//        });
+//
+//        //로그아웃 "아니오"
+//        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                builder.setNegativeButton("아니오", null);
+//            }
+//        });
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//    }
 }
