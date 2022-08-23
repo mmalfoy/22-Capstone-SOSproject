@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         // 누적 비용을 만들어서 전송할 거임
         UserInfo n_userInfo = new UserInfo(p_id, p_userInfo.getAge(), p_userInfo.getIncome_grade(), p_userInfo.getTotal_fare());
         Log.d("debug1", n_userInfo.getTotal_fare());
-        int fare = station.getFareFromNum(start, end);
+        int fare = station.getFareFromNum(start, end, Integer.parseInt(p_userInfo.getAge()));
         int total_fare = Integer.parseInt(p_userInfo.getTotal_fare())+ fare;
 
         n_userInfo.setTotal_fare(Integer.toString(total_fare));
