@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     // 주민등록번호 리턴 가능?? -> HASH 값으로 변환해야 됨..
     static String p_id;
     static UserInfo p_userInfo;
+    static String phoneNumber;
+    static String birthday;
 
     DBHelper mDBHelper;
     ArrayList<BoardingInfo> arrayList;
@@ -133,22 +135,22 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
         Intent intent2 = getIntent();
         NAME = intent2.getStringExtra("name");
-        String Phone = intent2.getStringExtra("phone");
-        String Birth = intent2.getStringExtra("birth");
-        String profile_Image = intent2.getStringExtra("profileImg");
+        phoneNumber = intent2.getStringExtra("phone");
+        birthday = intent2.getStringExtra("birth");
 
-        p_id = Phone+Birth;
+
+        p_id = phoneNumber + birthday;
         Log.e("Main", p_id);
-        // NFC를 지원하지 않는 경우 종료
-        if (nfcAdapter == null) {
-            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        } // NFC 설정이 되어있지 않다면 NFC 세팅 창을 띄움
-        else if (!nfcAdapter.isEnabled()){
-            Toast.makeText(this, "NFC 설정을 켜주세요.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, noNfcWarning.class));
-        }
+//        // NFC를 지원하지 않는 경우 종료
+//        if (nfcAdapter == null) {
+//            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
+//            finish();
+//            return;
+//        } // NFC 설정이 되어있지 않다면 NFC 세팅 창을 띄움
+//        else if (!nfcAdapter.isEnabled()){
+//            Toast.makeText(this, "NFC 설정을 켜주세요.", Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(this, noNfcWarning.class));
+//        }
 
         mDBHelper = new DBHelper(this, p_id, 1);
         //로딩화면 관련 코드
