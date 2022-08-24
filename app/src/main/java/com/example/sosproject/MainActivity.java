@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         NAME = intent2.getStringExtra("name");
         String Phone = intent2.getStringExtra("phone");
         String Birth = intent2.getStringExtra("birth");
+        String profile_Image = intent2.getStringExtra("profileImg");
 
         p_id = Phone+Birth;
         Log.e("Main", p_id);
@@ -230,6 +231,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MyinfoMenuActivity.class);
+                intent.putExtra("profile", profile_Image);
                 startActivity(intent);
             }
         });
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                // showMessage();
+                showMessage();
             }
         });
 
@@ -508,6 +510,38 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         syncDB(u_userInfo);
     }
 
+    public void showMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("안내");
+        builder.setMessage("로그아웃할 시 앱이 종료됩니다. \n로그아웃 하시겠습니까?");
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+        //로그아웃 "예"
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        finish(); // 현재 액티비티 종료
+                    }
+                });
+            }
+        });
+
+        //로그아웃 "아니오"
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                builder.setNegativeButton("아니오", null);
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 //    @Override
 //    protected void onResume() {
 //        super.onResume();
@@ -611,37 +645,5 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //
 //    private void disableForegroundDispatchSystem() {
 //        nfcAdapter.disableForegroundDispatch(this);
-//    }
-//
-//    public void showMessage() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("안내");
-//        builder.setMessage("로그아웃할 시 앱이 종료됩니다. \n로그아웃 하시겠습니까?");
-//        builder.setIcon(android.R.drawable.ic_dialog_alert);
-//
-//        //로그아웃 "예"
-//        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-//                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-//                    @Override
-//                    public void onCompleteLogout() {
-//                        finish(); // 현재 액티비티 종료
-//                    }
-//                });
-//            }
-//        });
-//
-//        //로그아웃 "아니오"
-//        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                builder.setNegativeButton("아니오", null);
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
 //    }
 }

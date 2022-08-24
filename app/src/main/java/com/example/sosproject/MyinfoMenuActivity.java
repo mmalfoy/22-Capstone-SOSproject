@@ -2,10 +2,14 @@ package com.example.sosproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class MyinfoMenuActivity extends AppCompatActivity {
 
@@ -16,6 +20,10 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo_menu);
 
+        Intent intent2 = getIntent();
+        String profile_Image = intent2.getStringExtra("profile");
+
+        ImageView iv_profile = (ImageView) findViewById(R.id.iv_profile);   //프로필 사진
         TextView text_user_name = (TextView) findViewById(R.id.text_user_name); //이름
         TextView info_name = (TextView) findViewById(R.id.info_name); //이름
         TextView info_number = (TextView) findViewById(R.id.info_number); //전화번호
@@ -25,6 +33,7 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         TextView info_extracharge = (TextView) findViewById(R.id.info_extracharge); //추가 비용
 
         // setText 로 할당하기
+        Glide.with(this).load(profile_Image).into(iv_profile);
         text_user_name.setText(MainActivity.NAME);
         info_name.setText(MainActivity.NAME);
         info_number.setText(KakaoLogin2Activity.PhoneNumber);
@@ -38,9 +47,6 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         back_myinfo_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
                 finish();
             }
         });

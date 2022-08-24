@@ -263,6 +263,7 @@ public class BeforeLoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(BeforeLoginActivity.this, MainActivity.class);
                         intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
+                        intent.putExtra("profileImg", result.getKakaoAccount().getProfile().getProfileImageUrl());
                         intent.putExtra("birth", birthday);
                         intent.putExtra("phone", phonenumber);
                         startActivity(intent);
