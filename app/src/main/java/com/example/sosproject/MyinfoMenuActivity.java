@@ -36,8 +36,8 @@ public class MyinfoMenuActivity extends AppCompatActivity {
         Glide.with(this).load(profile_Image).into(iv_profile);
         text_user_name.setText(MainActivity.NAME);
         info_name.setText(MainActivity.NAME);
-        info_number.setText(KakaoLogin2Activity.PhoneNumber);
-        info_brith.setText(KakaoLogin2Activity.IdentificationNumber);
+        info_number.setText(MainActivity.phoneNumber);
+        info_brith.setText(MainActivity.birthday);
         info_mycharge.setText(MainActivity.CHARGE);
         info_income.setText(MainActivity.p_userInfo.getIncome_grade());
         info_extracharge.setText("추가비용");
