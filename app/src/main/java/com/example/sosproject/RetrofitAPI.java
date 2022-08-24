@@ -21,6 +21,4 @@ public interface RetrofitAPI {
     @PUT("user/{id}")
     Call<UserInfo> updateMember(@Path("id") String id, @Field("age") String age, @Field("income_grade") String income_grade, @Field("total_fare") String total_fare);
 
-//    @PUT("user/{id}")
-//    Call<UserInfo> updateMember(@Path("id") String id, @Body UserInfo userinfo);
 }

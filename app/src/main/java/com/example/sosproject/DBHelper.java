@@ -24,10 +24,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        final String SQL_CREATE_USER =
-//                "CREATE TABLE "+User.UserEntry.TABLE_NAME + " (" +
-//                        User.UserEntry.ID + " INTEGER PRIMARY KEY," +
-//                        User.UserEntry.PASS + " TEXT)";
         db.execSQL("CREATE TABLE IF NOT EXISTS BoardingInfoList(id INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER NOT NULL, time INTEGER NOT NULL, start_s INTEGER NOT NULL, end_s INTEGER NOT NULL, fare INTEGER NOT NULL, total_fare INTEGER NOT NULL)");
     }
 

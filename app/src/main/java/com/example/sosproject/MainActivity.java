@@ -106,14 +106,12 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 
 
     // Retrofit (Spring server 연결부)
-    // 생년월일은 중복되네..
-    // 주민등록번호 리턴 가능?? -> HASH 값으로 변환해야 됨..
     static String p_id;
     static UserInfo p_userInfo;
     static String phoneNumber;
     static String birthday;
 
-    DBHelper mDBHelper;
+    DBHelper mDBHelper; // 각 계정마다 탑승 정보를 저장하는 sqlite DB helper
     ArrayList<BoardingInfo> arrayList;
 
 
@@ -137,10 +135,8 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         NAME = intent2.getStringExtra("name");
         phoneNumber = intent2.getStringExtra("phone");
         birthday = intent2.getStringExtra("birth");
-
-
         p_id = phoneNumber + birthday;
-        Log.e("Main", p_id);
+
 //        // NFC를 지원하지 않는 경우 종료
 //        if (nfcAdapter == null) {
 //            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
@@ -152,17 +148,12 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
 //            startActivity(new Intent(this, noNfcWarning.class));
 //        }
 
+        //
         mDBHelper = new DBHelper(this, p_id, 1);
-        //로딩화면 관련 코드
+        //로딩화면
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
-//        Log.e("before after Retrofit", CHARGE);
-//        Log.e("before after Retrofit", NAME);
 
-        // 내부 DB관련 코드
-
-        // Log.e("after", Integer.toString(p_userInfo.getTotal_fare()));
-        // Log.e("after", NAME);
         test = findViewById(R.id.txt_json);
         personal_name = findViewById(R.id.personal_name);
 

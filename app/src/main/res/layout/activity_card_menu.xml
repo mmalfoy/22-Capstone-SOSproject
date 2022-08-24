@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20sp"
-                    android:text="더 나은 내일을 위한 동행 \nAppNAME과 함께 오늘도 좋은 하루 되셨기를 바랍니다."/>
+                    android:text="더 나은 내일을 위한 동행 \nS.O.S 와 함께 오늘도 좋은 하루 되셨기를 바랍니다."/>
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="20sp"/>
