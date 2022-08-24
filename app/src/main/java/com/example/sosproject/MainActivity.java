@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
     String rideStation;
     String quitStation;
 
+    public static String image_profile;
     private ImageButton card;
     private RelativeLayout cardLayout;
     private Animation cardAnim;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
         NAME = intent2.getStringExtra("name");
         phoneNumber = intent2.getStringExtra("phone");
         birthday = intent2.getStringExtra("birth");
+        image_profile = intent2.getStringExtra("profileImg");
         p_id = phoneNumber + birthday;
 
 //        // NFC를 지원하지 않는 경우 종료
@@ -224,7 +226,7 @@ public class MainActivity extends AppCompatActivity {//extends Calender{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MyinfoMenuActivity.class);
-                intent.putExtra("profile", profile_Image);
+                intent.putExtra("profile", image_profile);
                 startActivity(intent);
             }
         });
