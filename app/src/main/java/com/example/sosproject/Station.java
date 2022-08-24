@@ -70,13 +70,17 @@ public class Station {
         else return fare;
     }
 
-//    public int getFareFromName(String startName, String endName, int age){
-//        int startNum = this.name2num(startName);
-//        int endNum = this.name2num(endName);
-//        if (startNum != -1 && endNum != -1){
-//            int idx = cstartEnd.startEnd.indexOf(startName + endName);
-//            return cfare.fare.get(idx);
-//        }
-//        return -1;
-//    }
+    public String getLineNum(String stationName){
+        String lineNum = "";
+        return Integer.toString(this.name2num(stationName) / 100);
+    }
+
+    public int getFareFromName(String startName, String endName, int age){
+        int startNum = this.name2num(startName);
+        int endNum = this.name2num(endName);
+        if (startNum != -1 && endNum != -1){
+            return this.getFareFromNum(startNum, endNum, age);
+        }
+        return -1;
+    }
 }

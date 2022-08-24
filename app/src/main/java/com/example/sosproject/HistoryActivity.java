@@ -218,7 +218,12 @@ public class HistoryActivity extends AppCompatActivity {
     //비용 int -> string
     protected String timeChanger(int time) {
         String temp = Integer.toString(time);
-        temp = new StringBuilder(temp).insert(2, ":").toString();
+        if (temp.length() == 5) {
+            temp = new StringBuilder(temp).insert(1, ":").insert(4, ":").toString();
+        }
+        else {
+            temp = new StringBuilder(temp).insert(2, ":").insert(5, ":").toString();
+        }
         return temp;
 
     }
