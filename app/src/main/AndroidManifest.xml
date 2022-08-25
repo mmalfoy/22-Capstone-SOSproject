@@ -87,7 +87,7 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="aa39351bb6aafa293e3ab9aff2930f06" />
+            android:value="14d8b1fcb6b98abeb1a787ccd9b2be83" />
     </application>
 
 </manifest>
