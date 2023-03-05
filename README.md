@@ -1,4 +1,3 @@
-# 22--summer-project-
+# SOS(Subway-Fair Optimalization System)
 
-블라블라
-h w
+
